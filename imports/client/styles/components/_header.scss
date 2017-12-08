@@ -1,0 +1,19 @@
+.header {
+  background-color: $header-bg;
+  color: $header-color;
+  height: 70px;
+}
+
+.header__content {
+  display: flex;
+  justify-content: space-between;
+  max-width: $site-max-width;
+  margin: 0 auto;
+  padding: $space;
+}
+
+.header__title {
+  text-decoration: none;
+  color: white;
+  margin: 0;
+}

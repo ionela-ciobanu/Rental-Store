@@ -1,0 +1,83 @@
+.form {
+  padding: $space;
+  margin: 0 auto;
+}
+
+.form__element {
+  background: #e6fff9;
+  border: 1px solid #008066;
+  border-radius: 5px;
+  margin: $space auto;
+  padding: $space;
+  width: 90%;
+}
+
+.form__element label {
+  font-size: 1.6rem;
+}
+
+.form__element p {
+  color: red;
+  font-size: 1.6rem;
+}
+
+.form__element textarea {
+  font-family: Helvetica, Arial, sans-serif;
+  height: 100px;
+}
+
+.form__currency {
+  display: flex;
+  justify-content: space-around;
+}
+
+.form__dropzone {
+  border: 2px dotted black;
+  height: 50px;
+  padding: $space;
+  text-align: center;
+  widht: 100%;
+}
+
+.form__center {
+  display: flex;
+  justify-content: center;
+}
+
+.ReactGridGallery {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.text-input {
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  font-size: 1.6rem;
+  height: 50px;
+  margin: $space auto;
+  padding: 0.7rem;
+  width: 100%;
+}
+
+.button-add {
+  background: #008066;
+  color: white;
+  border-radius: 20px;
+  font-size: 2rem;
+  margin: $space auto;
+  padding: $space;
+  width: 70%;
+}
+
+.button-cancel {
+  background: #cc3300;
+  border-radius: 20px;
+  color: white;
+  font-size: 1.6rem;
+  margin-bottom: $space;
+  padding: $space;
+  width: 70%;
+}

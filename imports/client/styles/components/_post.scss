@@ -1,0 +1,48 @@
+.post {
+  background: $item-bg;
+  border: 1px solid $item-border;
+  padding: $space;
+  width: 250px;
+}
+
+.post h2 {
+  text-align: center;
+}
+
+.post h2:hover {
+  text-decoration: underline;
+}
+
+.post img {
+  display:block;
+  height: 150px;
+  margin: 5px auto;
+  width: auto;
+}
+
+.post__title {
+  text-decoration: none;
+}
+
+.posts-list {
+  display: flex;
+  justify-content: center;
+  flex-flow: row wrap;
+}
+
+.post__images {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.post__details {
+  padding: $space;
+  text-align: left;
+}
+
+.post__details img{
+  height: 150px;
+  width: auto;
+  padding: 1px;
+}

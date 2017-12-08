@@ -1,0 +1,35 @@
+{
+  "name": "key-seller",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "axios": "^0.17.1",
+    "babel-runtime": "^6.26.0",
+    "cloudinary": "^1.9.1",
+    "formik": "^0.10.5",
+    "image-size": "^0.6.1",
+    "message-box": "^0.1.1",
+    "meteor-node-stubs": "^0.3.2",
+    "moment": "^2.19.2",
+    "prop-types": "^15.6.0",
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1",
+    "react-dropzone": "^4.2.3",
+    "react-flip-move": "^2.10.0",
+    "react-grid-gallery": "^0.4.7",
+    "react-history": "^0.18.2",
+    "react-modal": "^3.1.5",
+    "react-photo-gallery": "^6.0.18",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-spinners": "^0.2.5",
+    "shortid": "^2.2.8",
+    "simpl-schema": "^1.0.0",
+    "yup": "^0.23.0"
+  },
+  "engines": {
+    "node": "8.8.1"
+  }
+}
