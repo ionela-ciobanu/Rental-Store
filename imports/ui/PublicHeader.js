@@ -22,7 +22,7 @@ export default class PublicHeader extends React.Component {
 
         <div className="header">
           <div className="header__content">
-            <h1>Rental Store</h1>
+            <h1 className="header__title">Rental Store</h1>
 
             <div>
               <button className="button" onClick={() => this.setState({isOpen: true, loginOpen: true})}>Intra in cont</button>
@@ -50,7 +50,7 @@ export default class PublicHeader extends React.Component {
             </div>
           }
 
-          <button type="button" className="button button--secondary" onClick={this.handleModalClose.bind(this)}>Inchide</button>
+          <button type="button" className="button header__cancel" onClick={this.handleModalClose.bind(this)}>Inchide</button>
         </Modal>
       </div>
     );

@@ -5,30 +5,8 @@
   cursor: pointer;
   font-size: $base-font-size;
   line-height: 1.2;
-  margin-bottom: $space;
   outline: none;
   padding: $input-spacing;
-}
-
-.button--link {
-  color: white;
-  display: inline-block;
-  text-decoration: none;
-}
-
-.button--pill {
-  background-color: transparent;
-  border: 1px solid $button-pill-color;
-  color: $button-pill-color;
-  margin: 0 ($space/2) 0 0;
-  padding: .3rem .8rem;
-}
-
-.button--secondary {
-  background: $button-secondary-bg;
-  border: 1px solid $button-secondary-border-color;
-  color: $button-secondary-color;
-  width: 100%;
 }
 
 .button--link-text {

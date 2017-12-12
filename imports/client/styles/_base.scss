@@ -28,11 +28,13 @@ a {
 }
 
 input {
+  border: 1px solid $input-border;
   font-size: $base-font-size;
+  margin-bottom: $space;
+  padding: $input-spacing;
 }
 
 label {
-  font-size: $base-font-size;
   margin-bottom: $space;
   text-align: left;
 }

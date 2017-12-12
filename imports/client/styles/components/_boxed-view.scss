@@ -9,6 +9,7 @@
 
 .boxed-view--modal {
   background: fade-out($boxed-view-overlay-bg, 0.3);
+  overflow: scroll;
   position: fixed;
   top: 0;
   left: 0;

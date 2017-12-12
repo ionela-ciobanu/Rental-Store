@@ -1,10 +1,10 @@
 .header {
   background-color: $header-bg;
   color: $header-color;
-  height: 70px;
 }
 
 .header__content {
+  align-items: center;
   display: flex;
   justify-content: space-between;
   max-width: $site-max-width;
@@ -13,7 +13,18 @@
 }
 
 .header__title {
-  text-decoration: none;
   color: white;
   margin: 0;
+}
+
+.header__link {
+  color: white;
+  text-decoration: none;
+}
+
+.header__cancel {
+  background: $button-secondary-bg;
+  border: 1px solid $button-secondary-border-color;
+  color: $button-secondary-color;
+  width: 100%;
 }

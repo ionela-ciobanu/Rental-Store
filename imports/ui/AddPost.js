@@ -34,7 +34,7 @@ export default class AddPost extends React.Component {
     let title = this.refs.title.value.trim();
     let category = this.refs.category.value;
     let description = this.refs.description.value.trim();
-    let price = this.refs.price.value.trim();
+    let price = this.refs.price.value;
     let currency = this.refs.currency.value;
     let period = this.refs.period.value;
     let city = this.refs.city.value.trim();
@@ -187,9 +187,7 @@ export default class AddPost extends React.Component {
               <label>Titlu:
                 <input className={this.state.errorTitle ? 'text-input error' : 'text-input'}
                        type="text" ref="title" name="title" placeholder="Alege un titlu potrivit pentru anuntul tau."
-                       onChange={(e) => {if(e.target.value.trim().length < 4) {
-                                           this.setState({errorTitle: 'Titlul trebuie sa contina cel putin 4 caractere.'});
-                                         } else {
+                       onChange={(e) => {if(e.target.value.trim().length >= 4) {
                                            this.setState({errorTitle: ''});
                                          }}}/>
                 {this.state.errorTitle ? <p>{this.state.errorTitle}</p> : undefined}
@@ -199,17 +197,16 @@ export default class AddPost extends React.Component {
             <div className="form__element">
               <select className={this.state.errorCategory ? 'text-input error' : 'text-input'}
                       ref="category" name="category"
-                      onClick={(e) => {if(!e.target.value) {
-                                          this.setState({errorCategory: 'Alege o categorie.'});
-                                        } else {
+                      onClick={(e) => {if(e.target.value) {
                                           this.setState({errorCategory: ''});
                                         }}}>
                 <option value="">Alege o categorie</option>
-                <option value="imobiliare">Imobiliare</option>
                 <option value="auto">Auto</option>
                 <option value="cursuri">Cursuri</option>
+                <option value="echipamente">Echipamente</option>
+                <option value="imobiliare">Imobiliare</option>
+                <option value="imbracaminte">Imbracaminte</option>
                 <option value="servicii">Servicii</option>
-                <option value="obiecte">Obiecte</option>
               </select>
             </div>
 
@@ -217,9 +214,7 @@ export default class AddPost extends React.Component {
               <label>Descriere:
                 <textarea className={this.state.errorDescription ? 'text-input error' : 'text-input'}
                           ref="description" name="description" placeholder="Descriere" style={{resize: 'none'}}
-                          onChange={(e) => {if(e.target.value.trim().length < 4) {
-                                              this.setState({errorDescription: 'Descrierea trebuie sa contina cel putin 4 caractere.'});
-                                            } else {
+                          onChange={(e) => {if(e.target.value.trim().length >= 4) {
                                               this.setState({errorDescription: ''});
                                             }}}/>
                 {this.state.errorDescription ? <p>{this.state.errorDescription}</p> : undefined}
@@ -229,17 +224,13 @@ export default class AddPost extends React.Component {
             <div className="form__element form__currency">
               <input className={this.state.errorPrice ? 'text-input error' : 'text-input'}
                      type="number" ref="price" name="price" placeholder="Pret"
-                     onChange={(e) => {if(e.target.value < 1) {
-                                         this.setState({errorPrice: 'Pretul nu este valid.'});
-                                       } else {
+                     onChange={(e) => {if(e.target.value >= 1) {
                                          this.setState({errorPrice: ''});
                                        }}}/>
 
               <select className={this.state.errorCurrency ? 'text-input error' : 'text-input'}
                       ref="currency" name="currency"
-                      onClick={(e) => {if(!e.target.value) {
-                                          this.setState({errorCurrency: 'Alege moneda.'});
-                                        } else {
+                      onClick={(e) => {if(e.target.value) {
                                           this.setState({errorCurrency: ''});
                                         }}}>
                  <option value="">Alege moneda</option>
@@ -250,9 +241,7 @@ export default class AddPost extends React.Component {
 
                 <select className={this.state.errorPeriod ? 'text-input error' : 'text-input'}
                        ref="period" name="period"
-                       onClick={(e) => {if(!e.target.value) {
-                                           this.setState({errorPeriod: 'Alege perioada.'});
-                                         } else {
+                       onClick={(e) => {if(e.target.value) {
                                            this.setState({errorPeriod: ''});
                                          }}}>
                   <option value="">Alege perioada</option>
@@ -269,9 +258,7 @@ export default class AddPost extends React.Component {
               <label>Localitate:
                 <input className={this.state.errorCity ? 'text-input error' : 'text-input'}
                        type="text" ref="city" name="city" placeholder="Scrie localitatea ta."
-                       onChange={(e) => {if(e.target.value.trim().length < 3) {
-                                           this.setState({errorCity: 'Localitatea trebuie sa contina cel putin 3 caractere.'});
-                                         } else {
+                       onChange={(e) => {if(e.target.value.trim().length >= 3) {
                                            this.setState({errorCity: ''});
                                          }}}/>
                 {this.state.errorCity ? <p>{this.state.errorCity}</p> : undefined}

@@ -12,10 +12,10 @@ export default class PrivateHeader extends React.Component {
       <div>
         <div className="header">
           <div className="header__content">
-            <h1><Link className="header__title" to='/'>{this.props.title}</Link></h1>
+            <h1 className="header__title"><Link className="header__link" to='/'>{this.props.title}</Link></h1>
             <div>
-              <Link className="button--link" to='/addPost'>Adauga un anunt</Link>
-              <button className="button button--link-text" onClick={() => Accounts.logout()}>Logout</button>
+              <Link className="button header__link" to='/addPost'>Adauga un anunt</Link>
+              <button className="button" onClick={() => Accounts.logout()}>Logout</button>
             </div>
           </div>
         </div>

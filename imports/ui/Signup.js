@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {Accounts} from 'meteor/accounts-base';
+import SimpleSchema from 'simpl-schema';
 import moment from 'moment';
 
 export default class Signup extends React.Component {
@@ -9,7 +10,24 @@ export default class Signup extends React.Component {
     this.state = {
       error: ''
     };
+    this.validateEmail = this.validateEmail.bind(this);
   }
+
+  validateEmail(email) {
+    var schema = new SimpleSchema({
+      email: {
+        type: String,
+        regEx: SimpleSchema.RegEx.Email
+      }
+    });
+    try {
+      schema.validate({email});
+      return true;
+    } catch(error) {
+      return false;
+    }
+  }
+
   onSubmit(e) {
     e.preventDefault();
 
@@ -20,8 +38,8 @@ export default class Signup extends React.Component {
     let today = moment();
     const error = false;
 
-    if(email.length < 5) {
-      this.setState({errorEmail: 'Introdu email-ul tau.'});
+    if(!this.validateEmail(email)) {
+      this.setState({errorEmail: 'Email-ul nu este corect.'});
       error = true;
     }
 
@@ -64,27 +82,21 @@ export default class Signup extends React.Component {
           {this.state.errorEmail ? <p>{this.state.errorEmail}</p> : undefined}
           <input className={this.state.errorEmail ? 'text-input error' : 'text-input'}
                  type="email" ref="email" name="email" placeholder="Email"
-                 onChange={(e) => {if(e.target.value.trim().length < 5) {
-                                    this.setState({errorEmail: 'Introdu email-ul tau.'});
-                                  } else {
+                 onChange={(e) => {if(this.validateEmail(e.target.value.trim())) {
                                     this.setState({errorEmail: ''});
                                   }}}/>
 
           {this.state.errorPassword ? <p>{this.state.errorPassword}</p> : undefined}
           <input type="password" ref="password" name="password" placeholder="Parola"
                  className={this.state.errorPassword ? 'text-input error' : 'text-input'}
-                 onChange={(e) => {if(e.target.value.trim().length < 6) {
-                                    this.setState({errorPassword: 'Parola trebuie sa contina cel putin 6 caractere.'});
-                                  } else {
+                 onChange={(e) => {if(e.target.value.trim().length >= 6) {
                                     this.setState({errorPassword: ''});
                                   }}}/>
 
           {this.state.errorPassword2 ? <p>{this.state.errorPassword2}</p> : undefined}
           <input type="password" ref="password2" name="password2" placeholder="Verifica parola"
                  className={this.state.errorPassword2 ? 'text-input error' : 'text-input'}
-                 onChange={(e) => {if(e.target.value.trim() !== this.refs.password.value.trim()) {
-                                    this.setState({errorPassword2: 'Parolele nu corespund.'});
-                                  } else {
+                 onChange={(e) => {if(e.target.value.trim() === this.refs.password.value.trim()) {
                                     this.setState({errorPassword2: ''});
                                   }}}/>
 
@@ -92,11 +104,7 @@ export default class Signup extends React.Component {
             {this.state.errorBirthday ? <p>{this.state.errorBirthday}</p> : undefined}
             <input type="date" ref="birthday" name="birthday"
                    className={this.state.errorBirthday ? 'text-input error' : 'text-input'}
-                   onChange={(e) => {if(!moment(e.target.value).valueOf()) {
-                                      this.setState({errorBirthday: 'Data introdusa nu este valida.'});
-                                    } else if(moment().diff(moment(e.target.value),'years') < 14) {
-                                      this.setState({errorBirthday: 'Varsta minima este de 14 ani.'})
-                                    } else {
+                   onChange={(e) => {if(moment(e.target.value).valueOf() && moment().diff(moment(e.target.value),'years') >= 14) {
                                       this.setState({errorBirthday: ''});
                                     }}}/>
           </label>
