@@ -1,7 +1,7 @@
-.page-content {
+.page__content {
   margin: 0 auto;
   max-width: $site-max-width;
-  padding: $space;
+  min-width: 250px;
   text-align: center;
 }
 

@@ -1,6 +1,7 @@
 .header {
   background-color: $header-bg;
   color: $header-color;
+  min-width: 250px;
 }
 
 .header__content {
@@ -9,7 +10,13 @@
   justify-content: space-between;
   max-width: $site-max-width;
   margin: 0 auto;
-  padding: $space;
+  padding: $input-spacing;
+}
+
+.header__menu {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-end;
 }
 
 .header__title {

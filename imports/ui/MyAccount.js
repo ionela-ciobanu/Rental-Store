@@ -1,19 +1,25 @@
+import {Meteor} from 'meteor/meteor';
 import React from 'react';
 
 import PrivateHeader from './PrivateHeader';
-import PostsList from './PostsList';
+import PersonalInfo from './PersonalInfo';
 
-export default class Posts extends React.Component {
+export default class MyAccount extends React.Component {
   constructor(props) {
     super(props);
   }
+
   render() {
     return (
       <div>
         <PrivateHeader title="Rental Store"/>
+
         <div className="page__content">
-          <PostsList/>
+
+          <PersonalInfo/>
+
         </div>
+
       </div>
     );
   }

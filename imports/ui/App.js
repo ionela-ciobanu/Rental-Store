@@ -1,4 +1,5 @@
 import React from 'react';
+import {Meteor} from 'meteor/meteor';
 import FlipMove from 'react-flip-move';
 
 import {Posts} from '../api/posts';
@@ -39,7 +40,7 @@ export default class App extends React.Component {
     return (
       <div>
         <PublicHeader/>
-        <div className="page-content">
+        <div className="page__content">
           <h2>Aici poti vedea doar anunturile ocupate. Pentru a le vedea pe cele disponibile
           si pentru a adauga alte anunturi, autentifica-te.</h2>
           <FlipMove className="posts-list" maintainContainerHeight={true}>

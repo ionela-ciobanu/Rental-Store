@@ -37,7 +37,6 @@
   height: 50px;
   padding: $space;
   text-align: center;
-  widht: 100%;
 }
 
 .form__center {
@@ -80,4 +79,15 @@
   margin-bottom: $space;
   padding: $space;
   width: 70%;
+}
+
+@media (max-width: 600px) {
+  .form {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+  .form__element {
+    padding: $input-spacing;
+  }
 }

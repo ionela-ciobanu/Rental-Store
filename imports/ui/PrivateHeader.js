@@ -13,8 +13,9 @@ export default class PrivateHeader extends React.Component {
         <div className="header">
           <div className="header__content">
             <h1 className="header__title"><Link className="header__link" to='/'>{this.props.title}</Link></h1>
-            <div>
+            <div className="header__menu">
               <Link className="button header__link" to='/addPost'>Adauga un anunt</Link>
+              <Link className="button header__link" to='/myAccount'>Contul meu</Link>
               <button className="button" onClick={() => Accounts.logout()}>Logout</button>
             </div>
           </div>

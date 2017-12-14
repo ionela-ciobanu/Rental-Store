@@ -35,7 +35,7 @@ export default class PostsList extends React.Component {
 
           <div>
             <PrivateHeader title="Rental Store"/>
-            <div className="page-content">
+            <div className="page__content">
 
               <div className="page__element">
                 {this.state.post !== undefined ?

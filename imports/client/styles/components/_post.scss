@@ -46,3 +46,9 @@
   width: auto;
   padding: 1px;
 }
+
+@media (max-width: 600px) {
+  .page__element {
+    width: 100%;
+  }
+}

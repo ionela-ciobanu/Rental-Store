@@ -1,0 +1,47 @@
+.account__function {
+  background: #f7e5b7;
+  margin: $space auto;
+  padding: $space;
+  min-width: 250px;
+  width: 60%;
+}
+
+.account__title {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.account__title h3 {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.account__title img {
+  width: 30px;
+  height: 30px;
+}
+
+.account__content {
+  background: #f7e5b7;
+  padding: $space;
+}
+
+.account__content p {
+  color: red;
+}
+
+.account__button {
+  background: #47020b;
+  color: white;
+  margin: 0 auto;
+  padding: $space;
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .account__function {
+    padding: 0;
+    width: 100%;
+  }
+}

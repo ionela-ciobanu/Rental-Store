@@ -176,7 +176,7 @@ export default class AddPost extends React.Component {
     return (
       <div>
         <PrivateHeader title="Rental Store"/>
-        <div className="page-content">
+        <div className="page__content">
           <form id="form" className="form" onSubmit={(e) => {
                                                       this.onSubmit(e, () => {
                                                         this.setState({loading: false});

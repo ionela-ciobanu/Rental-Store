@@ -10,9 +10,10 @@ import Posts from '../ui/Posts';
 import NotFound from '../ui/NotFound';
 import AddPost from '../ui/AddPost';
 import PostDetails from '../ui/PostDetails';
+import MyAccount from '../ui/MyAccount';
 
 const unauthenticatedPages = ['/'];
-const authenticatedPages = ['/posts', '/addPost'];
+const authenticatedPages = ['/posts', '/addPost', '/myAccount'];
 const customHistory = createBrowserHistory();
 
 
@@ -42,6 +43,9 @@ export const routes = (
 
         <Route path='/addPost' render={() => (!Meteor.userId() ?
           ( <Redirect to="/"/> ) : ( <AddPost/> ) ) } />
+
+        <Route path='/myAccount' render={() => (!Meteor.userId() ?
+          ( <Redirect to="/"/> ) : ( <MyAccount/> ) ) } />
 
         <Route render={() => (<NotFound/>)}/>
       </Switch>

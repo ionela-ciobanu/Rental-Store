@@ -61,7 +61,7 @@ export default class Signup extends React.Component {
     }
 
     if(!error) {
-      Accounts.createUser({email, password}, (err) => {
+      Accounts.createUser({email, password, birthday: birthday.format('YYYY-MM-DD')}, (err) => {
         if(err) {
           this.setState({error: err.reason});
         } else {
