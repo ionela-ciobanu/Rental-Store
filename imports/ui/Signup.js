@@ -66,6 +66,13 @@ export default class Signup extends React.Component {
           this.setState({error: err.reason});
         } else {
           this.setState({error: ''});
+          // Meteor.call(
+          //   'sendEmail',
+          //   'ionelalexandra28@yahoo.com',
+          //   'bob@example.com',
+          //   'Hello from Meteor!',
+          //   'This is a test of Email.send.'
+          // );
         }
       });
     }

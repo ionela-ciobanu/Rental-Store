@@ -2,11 +2,14 @@
   margin: 0 auto;
   max-width: $site-max-width;
   min-width: 250px;
-  text-align: center;
 }
 
 .page__element {
   margin: 0 auto;
   text-align: center;
   width: 600px;
+}
+
+.page__content h2 {
+  text-align: center;
 }

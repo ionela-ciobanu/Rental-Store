@@ -12,6 +12,7 @@ export default class AddPost extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      error: '',
       files: [],
       images: [],
       selected: [],
@@ -24,11 +25,12 @@ export default class AddPost extends React.Component {
     this.onSelectImage = this.onSelectImage.bind(this);
     this.getSelectedImages = this.getSelectedImages.bind(this);
     this.removeImages = this.removeImages.bind(this);
+    this.setSelectedToFalse = this.setSelectedToFalse.bind(this);
   }
 
   onSubmit(e, callback) {
     e.preventDefault();
-
+    this.setSelectedToFalse();
     this.setState({loading: true});
 
     let title = this.refs.title.value.trim();
@@ -71,6 +73,7 @@ export default class AddPost extends React.Component {
     }
 
     if(!error) {
+      this.setState({error: ''});
       this.uploadImagesToCloudinary(this.state.files, (cloudinaryImages) => {
         Meteor.call('posts.insert', title, category, description, price, currency, period, city, cloudinaryImages, (err, res) => {
           if (!err) {
@@ -89,6 +92,7 @@ export default class AddPost extends React.Component {
         });
       });
     } else {
+      this.setState({error: 'Verifica datele introduse !'});
       callback();
     }
   }
@@ -134,6 +138,14 @@ export default class AddPost extends React.Component {
     });
   }
 
+  setSelectedToFalse() {
+    let images = this.state.images;
+    images.map((image) => {
+      image.isSelected = false;
+    });
+    this.setState({images});
+  }
+
   onSelectImage(index, image) {
     const images = this.state.images;
     const img = images[index];
@@ -155,21 +167,20 @@ export default class AddPost extends React.Component {
 
   removeImages() {
     const newImages = [];
+    const newFiles = [];
     const images = this.state.images;
+    const files = this.state.files;
     const selected = this.state.selected;
 
     for(var i = 0; i < images.length; i++) {
       if (!selected.includes(i)) {
         newImages.push(images[i]);
+        newFiles.push(files[i]);
       }
     }
     this.setState({images: newImages});
+    this.setState({files: newFiles});
     this.setState({selected: []});
-  }
-
-  handleModalClose() {
-    console.log('inchis');
-    this.setState({loading: false});
   }
 
   render() {
@@ -249,8 +260,8 @@ export default class AddPost extends React.Component {
                   <option value="ora">Ora</option>
                   <option value="zi">Zi</option>
                   <option value="saptamana">Saptamana</option>
-                  <option value="Luna">Luna</option>
-                  <option value="An">An</option>
+                  <option value="luna">Luna</option>
+                  <option value="an">An</option>
                 </select>
             </div>
 
@@ -283,7 +294,11 @@ export default class AddPost extends React.Component {
             : undefined}
 
             <div className="form__center">
-              <button className="button-add">Adauga anuntul</button>
+              {this.state.error ? <p>{this.state.error}</p> : undefined}
+            </div>
+
+            <div className="form__center">
+              <button className="button-submit">Adauga anuntul</button>
             </div>
 
           </form>

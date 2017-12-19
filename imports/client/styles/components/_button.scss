@@ -16,3 +16,23 @@
   text-decoration: underline;
   outline: none;
 }
+
+.button-submit {
+  background: #47020b;
+  color: white;
+  border-radius: 10px;
+  font-size: 1.8rem;
+  margin: $space auto;
+  padding: $space;
+  width: 100%;
+}
+
+.button-cancel {
+  background: #cc3300;
+  border-radius: 10px;
+  color: white;
+  font-size: 1.6rem;
+  margin-bottom: $space;
+  padding: $space;
+  width: 100%;
+}

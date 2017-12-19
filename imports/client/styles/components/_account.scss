@@ -39,9 +39,23 @@
   width: 100%;
 }
 
+.account__post {
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: $space;
+  padding: $space;
+}
+
+.account__image {
+  width: 40px;
+  height: 40px;
+}
+
 @media (max-width: 600px) {
   .account__function {
-    padding: 0;
+    box-sizing: border-box;
+    padding: $input-spacing;
     width: 100%;
   }
 }

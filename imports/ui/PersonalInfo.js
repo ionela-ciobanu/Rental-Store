@@ -6,6 +6,7 @@ export default class PersonalInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state ={
+      error: '',
       userData: {},
       displayPersonal: 'none'
     }
@@ -55,6 +56,7 @@ export default class PersonalInfo extends React.Component {
     }
 
     if(!error) {
+      this.setState({error: ''});
       const newInfos = {
         lastName: lastName,
         firstName: firstName,
@@ -63,6 +65,8 @@ export default class PersonalInfo extends React.Component {
       };
       Meteor.call('users.update', newInfos);
       this.setState({displayPersonal: 'none'});
+    } else {
+      this.setState({error: 'Verifica datele introduse !'});
     }
   }
 
@@ -127,7 +131,11 @@ export default class PersonalInfo extends React.Component {
                                       this.setState({errorPhone: ''});
                                    }}}/>
 
-              <button className="account__button">Salveaza modificarile</button>
+               <div className="form__center">
+                 {this.state.error ? <p>{this.state.error}</p> : undefined}
+               </div>
+
+              <button className="button-submit">Salveaza modificarile</button>
             </form>
             : undefined
           }
