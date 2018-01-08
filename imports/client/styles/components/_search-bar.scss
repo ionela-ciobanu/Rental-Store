@@ -1,0 +1,43 @@
+.search-bar {
+  background-color: #820114;
+  color: white;
+  margin-bottom: $space;
+  min-width: 250px;
+}
+
+.search-bar__form {
+  color: white;
+}
+
+.search-bar__element {
+  display: flex;
+  justify-content: center;
+  max-width: $site-max-width;
+  padding: $input-spacing;
+}
+
+.search-bar__input {
+  background: #820114;
+  border: none;
+  border-bottom: 2px white solid;
+  color: white;
+  font-size: $base-font-size;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: $space;
+  padding: $input-spacing;
+  text-align: center;
+}
+
+.search-bar__input::placeholder {
+  color: white;
+}
+
+.search-bar__input:focus {
+  outline: none;
+}
+
+option:focus {
+    background: white !important;
+    color: #820114;
+}

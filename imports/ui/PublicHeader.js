@@ -3,18 +3,18 @@ import Modal from 'react-modal';
 
 import Login from './Login';
 import Signup from './Signup';
+import ResetPassword from './ResetPassword';
 
 export default class PublicHeader extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isOpen: false,
-      loginOpen: false,
-      signupOpen: false
+      content: 0
     }
   }
   handleModalClose() {
-    this.setState({isOpen: false, loginOpen: false, signupOpen: false});
+    this.setState({isOpen: false, content: 0});
   }
   render() {
     return (
@@ -25,8 +25,8 @@ export default class PublicHeader extends React.Component {
             <h1 className="header__title">Rental Store</h1>
 
             <div>
-              <button className="button" onClick={() => this.setState({isOpen: true, loginOpen: true})}>Intra in cont</button>
-              <button className="button" onClick={() => this.setState({isOpen: true, signupOpen: true})}>Inregistrare</button>
+              <button className="button" onClick={() => this.setState({isOpen: true, content: 1})}>Intra in cont</button>
+              <button className="button" onClick={() => this.setState({isOpen: true, content: 2})}>Inregistrare</button>
             </div>
           </div>
         </div>
@@ -39,14 +39,18 @@ export default class PublicHeader extends React.Component {
           className="boxed-view__box"
           overlayClassName="boxed-view boxed-view--modal">
 
-          {this.state.loginOpen ?
+          {this.state.content === 1 ?
             <div>
               <Login/>
-              <button className="button button--link-text" onClick={() => {this.setState({loginOpen: false})}} style={{color: 'black'}}>Ai nevoie de un cont?</button>
-            </div> :
+              <button className="button button--link-text" onClick={() => {this.setState({content: 2})}} style={{color: 'black'}}>Ai nevoie de un cont?</button>
+              <button className="button button--link-text" onClick={() => {this.setState({content: 3})}} style={{color: 'black'}}>Ai uitat parola?</button>
+            </div> : this.state.content === 2 ?
             <div>
               <Signup/>
-              <button className="button button--link-text" onClick={() => {this.setState({loginOpen: true})}} style={{color: 'black'}}>Ai deja un cont?</button>
+              <button className="button button--link-text" onClick={() => {this.setState({content: 1})}} style={{color: 'black'}}>Ai deja un cont?</button>
+            </div> :
+            <div>
+              <ResetPassword/>
             </div>
           }
 

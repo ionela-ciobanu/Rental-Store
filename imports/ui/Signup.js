@@ -1,16 +1,23 @@
+import {Meteor} from 'meteor/meteor';
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {Accounts} from 'meteor/accounts-base';
 import SimpleSchema from 'simpl-schema';
 import moment from 'moment';
+import shortid from 'shortid';
+import {Session} from 'meteor/session';
+
+import {Emails} from '../api/emails';
 
 export default class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      error: ''
+      error: '',
+      showCode: 'none'
     };
     this.validateEmail = this.validateEmail.bind(this);
+    this.codeVerification = this.codeVerification.bind(this);
   }
 
   validateEmail(email) {
@@ -61,20 +68,49 @@ export default class Signup extends React.Component {
     }
 
     if(!error) {
-      Accounts.createUser({email, password, birthday: birthday.format('YYYY-MM-DD')}, (err) => {
-        if(err) {
-          this.setState({error: err.reason});
+      const codeRegistration = shortid.generate();
+
+      Meteor.call('sendEmail', email, 'support@rentalstore.com', 'Rental Store - Confirm your email', `Codul de verificare este: ${codeRegistration}`, (err, res) => {
+        if(!err) {
+          Meteor.call('emails.insertCodeRegistration', email, codeRegistration, (err, res) => {
+            if (!err) {
+              this.setState({showCode: 'block'});
+            }
+          });
+
         } else {
-          this.setState({error: ''});
-          // Meteor.call(
-          //   'sendEmail',
-          //   'ionelalexandra28@yahoo.com',
-          //   'bob@example.com',
-          //   'Hello from Meteor!',
-          //   'This is a test of Email.send.'
-          // );
+          alert('Email-ul de confirmare NU a fost trimis.');
         }
       });
+    }
+  }
+
+  codeVerification() {
+    let address = this.refs.email.value.trim();
+    let password = this.refs.password.value.trim();
+    let birthday = moment(this.refs.birthday.value);
+    let codeRegistration = this.refs.codeRegistration.value.trim();
+
+    if(codeRegistration.length > 0) {
+      Tracker.autorun(() => {
+        Meteor.subscribe('emails', address);
+        const email = Emails.findOne({});
+        if(email) {
+          if(codeRegistration === email.codeRegistration) {
+            Accounts.createUser({email: address, password, birthday: birthday.format('YYYY-MM-DD'), codeRegistration: codeRegistration}, (err, res) => {
+              if(err) {
+                this.setState({error: err.reason});
+              } else {
+                this.setState({error: ''});
+              }
+            });
+          } else {
+            alert('Codul nu este corect !');
+          }
+        };
+      });
+    } else {
+      this.setState({errorCode: ' '});
     }
   }
 
@@ -116,7 +152,20 @@ export default class Signup extends React.Component {
                                     }}}/>
           </label>
 
-          <button className="button">Creaza cont</button>
+          <button className="button">Trimite email-ul de confirmare</button>
+
+          <p style={{display: this.state.showCode}}>Vei primi un email cu codul de confirmare (verifica si folder-ul <i>spam</i>). Introdu codul mai jos si creaza-ti contul !</p>
+          {this.state.errorCode ? <p>{this.state.errorCode}</p> : undefined}
+          <input className={this.state.errorCode ? 'text-input error' : 'text-input'}
+                 type="text" ref="codeRegistration" name="codeRegistration" placeholder="Cod"
+                 style={{display: this.state.showCode}}
+                 onChange={(e) => {if(e.target.value.trim().length > 0) {
+                                    this.setState({errorCode: ''});
+                                  }}}/>
+
+          <button type="button" className="button" style={{display: this.state.showCode}}
+            onClick={this.codeVerification}>Creaza cont</button>
+
         </form>
       </div>
     );

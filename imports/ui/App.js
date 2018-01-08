@@ -41,6 +41,7 @@ export default class App extends React.Component {
       <div>
         <PublicHeader/>
         <div className="page__content">
+
           <h2>Aici poti vedea doar anunturile ocupate. Pentru a le vedea pe cele disponibile
           si pentru a adauga alte anunturi, autentifica-te.</h2>
           <FlipMove className="posts-list" maintainContainerHeight={true}>
