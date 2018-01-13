@@ -97,7 +97,7 @@ export default class Signup extends React.Component {
         const email = Emails.findOne({});
         if(email) {
           if(codeRegistration === email.codeRegistration) {
-            Accounts.createUser({email: address, password, birthday: birthday.format('YYYY-MM-DD'), codeRegistration: codeRegistration}, (err, res) => {
+            Accounts.createUser({email: address, password, birthday: birthday.format('YYYY-MM-DD')}, (err, res) => {
               if(err) {
                 this.setState({error: err.reason});
               } else {

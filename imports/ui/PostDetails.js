@@ -9,7 +9,6 @@ import {Redirect} from 'react-router-dom';
 import NotFound from './NotFound';
 import PrivateHeader from './PrivateHeader';
 import {Posts} from '../api/posts';
-import Post from './Post';
 
 export default class PostsList extends React.Component {
   constructor(props) {
@@ -49,8 +48,8 @@ export default class PostsList extends React.Component {
                       <p>Localitate: {this.state.post.city}</p>
                       <p>Publicat la: {this.state.post.publishedAt}</p>
                       <p>Disponibil: {this.state.post.isAvailable ? 'Da' : 'Nu'}</p>
-                      <p>Blocat: {this.state.post.isBlocked ? moment(this.state.post.isBlocked).format("DD/MM/YYYY  HH:mm") : 'Nu' }</p>
-                      <p>Ocupat: {this.state.post.isBusy ? moment(this.state.post.isBusy).format("DD/MM/YYYY  HH:mm") : 'Nu'}</p>
+                      {/* <p>Blocat: {this.state.post.isBlocked ? moment(this.state.post.isBlocked).format("DD/MM/YYYY  HH:mm") : 'Nu' }</p>
+                      <p>Ocupat: {this.state.post.isBusy ? moment(this.state.post.isBusy).format("DD/MM/YYYY  HH:mm") : 'Nu'}</p> */}
                       <p>Persoane interesate: {this.state.post.likesCount}</p>
                       <p>Persoane dezinteresate: {this.state.post.dislikesCount}</p>
                       {this.state.post.images === undefined ? undefined :

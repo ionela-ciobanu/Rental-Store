@@ -14,6 +14,7 @@ export default class ResetPassword extends React.Component {
       showCode: 'none'
     };
     this.validateEmail = this.validateEmail.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
     this.codeVerification = this.codeVerification.bind(this);
   }
 
@@ -109,7 +110,7 @@ export default class ResetPassword extends React.Component {
       <div>
         <h1>Reseteaza Parola</h1>
 
-        <form noValidate="true" onSubmit={this.onSubmit.bind(this)} className="boxed-view__form" >
+        <form noValidate="true" onSubmit={this.onSubmit} className="boxed-view__form" >
 
           {this.state.error ? <p>{this.state.error}</p> : undefined}
           {this.state.errorEmail ? <p>{this.state.errorEmail}</p> : undefined}

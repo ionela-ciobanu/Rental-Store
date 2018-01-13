@@ -3,7 +3,7 @@ import {Meteor} from 'meteor/meteor';
 import FlipMove from 'react-flip-move';
 
 import {Posts} from '../api/posts';
-import Post from './Post';
+import PublicPost from './PublicPost';
 import PublicHeader from './PublicHeader';
 
 export default class App extends React.Component {
@@ -15,10 +15,11 @@ export default class App extends React.Component {
     this.renderPostsListItems.bind(this);
   }
   componentDidMount() {
+    var handlePosts = Meteor.subscribe('posts');
     this.postsTracker = Tracker.autorun(() => {
-      Meteor.subscribe('posts');
-      const posts = Posts.find({isAvailable: false}).fetch();
-      this.setState({posts});
+      if(handlePosts.ready()) {
+        this.setState({posts: Posts.find({}).fetch()});
+      }
     });
   }
   componentWillUnmount() {
@@ -33,7 +34,7 @@ export default class App extends React.Component {
       );
     }
     return this.state.posts.map((post) => {
-      return <Post key={post._id} {...post}/>;
+      return <PublicPost key={post._id} {...post}/>;
     });
   }
   render() {

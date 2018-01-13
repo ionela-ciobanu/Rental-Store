@@ -38,9 +38,11 @@ Meteor.methods({
       publishedAt: moment().format("DD/MM/YYYY HH:mm"),
       isAvailable: true,
       isBlocked: null,
-      isBusy: null,
+      isBusy: false,
       likesCount: 0,
-      dislikesCount: 0
+      dislikesCount: 0,
+      dislikesReasons: [],
+      publicMessages: []
     });
   },
   'posts.update'(_id, images, title, category, description, price,
@@ -65,6 +67,63 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized');
     }
     Posts.remove({_id});
+  },
+  'posts.incrementLikesCount'(_id) {
+    if(!Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
+    Posts.update({_id}, {$inc: {likesCount: 1}});
+  },
+  'posts.incrementDislikesCount'(_id, reason) {
+    if(!Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
+    const dislikeReason = {'userId': Meteor.userId(), 'reason': reason};
+    Posts.update({_id}, {$inc: {dislikesCount: 1},
+      $addToSet: {dislikesReasons: dislikeReason}});
+  },
+  'posts.decrementLikesCount'(_id) {
+    if(!Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
+    Posts.update({_id}, {$inc: {likesCount: -1}});
+  },
+  'posts.decrementDislikesCount'(_id) {
+    if(!Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
+    Posts.update({_id}, {$inc: {dislikesCount: -1},
+      $pull: {dislikesReasons: {userId: Meteor.userId()}}});
+  },
+  'posts.blockPost'(_id) {
+    if(!Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
+    Posts.update({_id}, {$set: {isAvailable: false,
+      isBlocked: new Date().getTime(), isBlockedBy: Meteor.userId()}});
+  },
+  'posts.unblockPost'(_id) {
+    if(!Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
+    Posts.update({_id}, {$set: {isAvailable: true, isBlocked: null, isBlockedBy: null}});
+  },
+  'posts.makePostInactive'(_id) {
+    if(!Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
+    Posts.update({_id}, {$set: {isAvailable: false, isBusy: true}});
+  },
+  'posts.makePostActive'(_id) {
+    if(!Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
+    Posts.update({_id}, {$set: {isAvailable: true, isBusy: false}});
+  },
+  'posts.addPublicMessage'(message, _id) {
+    if(!Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
+    Posts.update({_id}, {$addToSet: {publicMessages: {message, senderId: Meteor.userId(), read: false}}});
   }
-
 });

@@ -14,10 +14,14 @@ export default class PersonalInfo extends React.Component {
   }
 
   componentDidMount() {
+    var handle = Meteor.subscribe('userData');
     this.userTracker = Tracker.autorun(() => {
-      Meteor.subscribe('userData');
-      const userData = Meteor.users.findOne({_id: Meteor.userId()});
-      this.setState({userData});
+      if(handle.ready()) {
+        const userData = Meteor.users.findOne({});
+        this.setState({userData}, () => {
+          console.log(this.state.userData);
+        });
+      }
     });
   }
 
@@ -57,13 +61,8 @@ export default class PersonalInfo extends React.Component {
 
     if(!error) {
       this.setState({error: ''});
-      const newInfos = {
-        lastName: lastName,
-        firstName: firstName,
-        address: address,
-        phone: phone
-      };
-      Meteor.call('users.update', newInfos);
+
+      Meteor.call('users.update', lastName, firstName, address, phone);
       this.setState({displayPersonal: 'none'});
     } else {
       this.setState({error: 'Verifica datele introduse !'});
@@ -83,7 +82,7 @@ export default class PersonalInfo extends React.Component {
 
           {this.state.userData !== undefined && this.state.userData.personalInfo !== undefined?
             <form onSubmit={this.onSubmit}>
-
+              {this.state.userData.personalInfo.firstName}
               <label>Email:
                 <input readOnly className="text-input" type="email"
                     defaultValue={this.state.userData.emails[0].address}/>

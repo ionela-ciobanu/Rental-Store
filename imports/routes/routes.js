@@ -6,7 +6,7 @@ import {Route, Router, Switch} from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 
 import App from '../ui/App';
-import Posts from '../ui/Posts';
+import PostsList from '../ui/Posts';
 import NotFound from '../ui/NotFound';
 import AddPost from '../ui/AddPost';
 import PostDetails from '../ui/PostDetails';
@@ -39,7 +39,7 @@ export const routes = (
         <Route path='/posts/:id' component= {PostDetails}/>
 
         <Route path='/posts' render={() => (!Meteor.userId() ?
-          ( <Redirect to="/"/> ) : ( <Posts/> ) ) } />
+          ( <Redirect to="/"/> ) : ( <PostsList/> ) ) } />
 
         <Route path='/addPost' render={() => (!Meteor.userId() ?
           ( <Redirect to="/"/> ) : ( <AddPost/> ) ) } />

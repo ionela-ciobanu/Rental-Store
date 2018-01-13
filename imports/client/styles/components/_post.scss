@@ -3,48 +3,208 @@
   border: 1px solid $item-border;
   padding: $space;
   width: 250px;
+  h2 {
+    text-align: center;
+  }
 }
-
-.post h2 {
-  text-align: center;
-}
-
-.post h2:hover {
+.post > h2:hover {
+  cursor: pointer;
   text-decoration: underline;
 }
-
-.post img {
+.post__image {
   display:block;
   height: 150px;
   margin: 5px auto;
   width: auto;
 }
-
 .post__title {
   text-decoration: none;
 }
-
 .posts-list {
   display: flex;
   justify-content: center;
   flex-flow: row wrap;
 }
-
 .post__images {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
 }
-
 .post__details {
   padding: $space;
   text-align: left;
+  img{
+    height: 150px;
+    width: auto;
+    padding: 1px;
+  }
 }
-
-.post__details img{
-  height: 150px;
-  width: auto;
-  padding: 1px;
+.post .green {
+  background: linear-gradient(#e8f7ee, #42ed86);
+}
+.post .pink {
+  background: linear-gradient(#f9e3f7, #e5a0de);
+}
+.post .red {
+  background: linear-gradient(#f9e3f7, #ea5244);
+}
+.post__info {
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  p {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+}
+.post__pin {
+  border-radius: 5px;
+  padding: 5px;
+  position: relative;
+  width: 30px;
+  button {
+    background-color: #e8f7ee;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+  }
+  button:hover {
+    cursor: pointer;
+  }
+}
+.post__pinDetails {
+  border-radius: 5px;
+  padding: 5px;
+  width: 240px;
+  visibility: hidden;
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 0;
+  transition: visibility 0.2s linear;
+}
+.post__pin:hover .post__pinDetails {
+  visibility: visible;
+  transition: visibility 0.2s linear 0.2s;
+}
+.post__tags {
+  display: flex;
+  justify-content: space-around;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.post__actions {
+  margin-top: auto;
+  margin-bottom: auto;
+  height: 0;
+  opacity: 0;
+  transition: height 0.5s 0.3s, opacity 0.5s 0s;
+}
+.post:hover .post__actions {
+    transition: height 0.5s 0s, opacity 0.5s 0.3s;
+    height: 30px;
+    opacity: 1;
+}
+.post__icon {
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+}
+.post__tags .post__icon:hover {
+  cursor: pointer;
+}
+.post__counts {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+  margin-bottom: auto;
+  img {
+    vertical-align: middle;
+  }
+}
+.post__activeTag {
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  position: relative;
+}
+.post__inactiveTags {
+  background-color: $item-bg;
+  border-radius: 10%;
+  display:flex;
+  visibility: hidden;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  transition: visibility 0.2s linear;
+}
+.post__activeTag:hover .post__inactiveTags {
+  visibility: visible;
+  transition: visibility 0.2s linear 0.2s;
+}
+.blackBox, .post__actions {
+  position: relative;
+}
+.post__reason, .post__message {
+  text-align: center;
+  visibility: hidden;
+  background: $item-bg;
+  border-radius: 5px;
+  padding: 10px;
+  position: absolute;
+  z-index: 1;
+  left: -60px;
+  top: 100%;
+  transition: visibility 0.2s linear;
+  input[type=text], button {
+    padding: 5px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    width: 250px;
+  }
+  button:hover {
+    cursor: pointer;
+  }
+  p {
+    color: red;
+  }
+}
+.blackBox:hover {
+  .post__reason {
+    visibility: visible;
+    transition: visibility 0.2s linear 0.2s;
+  }
+}
+.post__actions:hover .post__message {
+  visibility: visible;
+  transition: visibility 0.2s linear 0.2s;
+}
+.post__count {
+  position: relative;
+}
+.post__reasons {
+  background: #8e010a;
+  border-radius: 5px;
+  color: white;
+  padding: 10px;
+  position: absolute;
+  width: 0px;
+  opacity: 0;
+  z-index: 1;
+  right: 0;
+  transition: width 0.5s 0.3s, opacity 0.5s 0s;
+  p {
+    word-wrap: break-word;
+  }
+}
+.post__count:hover .post__reasons {
+  width: 200px;
+  opacity: 1;
+  transition: width 0.5s 0s, opacity 0.5s 0.3s;
+}
+.post__header {
+  display: flex;
+  justify-content: space-around;
 }
 
 @media (max-width: 600px) {
