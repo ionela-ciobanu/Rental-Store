@@ -18,9 +18,7 @@ export default class PersonalInfo extends React.Component {
     this.userTracker = Tracker.autorun(() => {
       if(handle.ready()) {
         const userData = Meteor.users.findOne({});
-        this.setState({userData}, () => {
-          console.log(this.state.userData);
-        });
+        this.setState({userData});
       }
     });
   }
@@ -82,10 +80,14 @@ export default class PersonalInfo extends React.Component {
 
           {this.state.userData !== undefined && this.state.userData.personalInfo !== undefined?
             <form onSubmit={this.onSubmit}>
-              {this.state.userData.personalInfo.firstName}
               <label>Email:
                 <input readOnly className="text-input" type="email"
                     defaultValue={this.state.userData.emails[0].address}/>
+              </label>
+
+              <label>Nume utilizator:
+                <input readOnly className="text-input" type="text"
+                    defaultValue={this.state.userData.username} />
               </label>
 
               {this.state.errorLastName ? <p>{this.state.errorLastName}</p> : undefined}

@@ -12,5 +12,6 @@ Tracker.autorun(() => {
 });
 
 Meteor.startup(() => {
+  Session.set('unreadMessages', 0);
   ReactDOM.render(routes, document.getElementById('app'));
 });

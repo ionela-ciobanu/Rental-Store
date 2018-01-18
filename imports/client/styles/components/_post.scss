@@ -1,6 +1,6 @@
 .post {
   background: $item-bg;
-  border: 1px solid $item-border;
+  border: 5px solid $item-border;
   padding: $space;
   width: 250px;
   h2 {
@@ -30,22 +30,13 @@
   flex-flow: row wrap;
   justify-content: center;
 }
-.post__details {
-  padding: $space;
-  text-align: left;
-  img{
-    height: 150px;
-    width: auto;
-    padding: 1px;
-  }
-}
-.post .green {
+.green {
   background: linear-gradient(#e8f7ee, #42ed86);
 }
-.post .pink {
+.pink {
   background: linear-gradient(#f9e3f7, #e5a0de);
 }
-.post .red {
+.red {
   background: linear-gradient(#f9e3f7, #ea5244);
 }
 .post__info {
@@ -203,12 +194,16 @@
   transition: width 0.5s 0s, opacity 0.5s 0.3s;
 }
 .post__header {
+  background: linear-gradient(#fcfac4, #f7f376);
+  border-radius: 10px;
   display: flex;
   justify-content: space-around;
+  padding: 5px;
 }
-
-@media (max-width: 600px) {
-  .page__element {
-    width: 100%;
+.post table {
+  width: 100%;
+  th, td {
+    padding: 5px;
+    text-align: left;
   }
 }

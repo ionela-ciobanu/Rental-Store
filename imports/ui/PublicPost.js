@@ -7,23 +7,14 @@ import {Link} from 'react-router-dom';
 export default class PublicPost extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      link: ''
-    }
   };
-  componentDidMount() {
-    this.setState({link: "/posts/".concat(this.props._id)});
-  }
-  componentWillUnmount() {
-    this.setState({link: ''});
-  }
 
   render() {
     return (
       <div>
         <div className="post">
 
-          <h2><Link className="post__title" to={this.state.link}>{this.props.title}</Link></h2>
+          <h2 className="post__title">{this.props.title}</h2>
 
           {this.props.images.length > 0 ? <img src={this.props.images[0].src} className="post__image" /> : undefined}
 
@@ -33,9 +24,6 @@ export default class PublicPost extends React.Component {
           <div className="post__counts">
             <div className="post__count">
               {this.props.likesCount === 0 ? undefined : <div><img src="yes.png" className="post__icon"/> {this.props.likesCount}</div>}
-            </div>
-            <div className="post__count">
-              {this.props.dislikesCount === 0 ? undefined : <div><img src="no.png" className="post__icon"/> {this.props.dislikesCount} </div>}
             </div>
 
           </div>
@@ -57,6 +45,5 @@ PublicPost.propTypes = {
   publishedAt: PropTypes.string.isRequired,
   isAvailable: PropTypes.bool.isRequired,
   isBusy: PropTypes.bool,
-  likesCount: PropTypes.number.isRequired,
-  dislikesCount: PropTypes.number.isRequired
+  likesCount: PropTypes.number.isRequired
 };

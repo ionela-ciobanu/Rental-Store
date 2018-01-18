@@ -58,20 +58,22 @@ export default class ResetPassword extends React.Component {
     }
 
     if(!error) {
+      const handleEmails = Meteor.subscribe('emails', address);
       Tracker.autorun(() => {
-        Meteor.subscribe('emails', address);
-        const email = Emails.findOne({});
-        if(email) {
-          if(codeReset === email.codeReset) {
-            Meteor.call('users.resetPassword', address, password , (err, res) => {
-              if(!err) {
-                Meteor.loginWithPassword(address, password);
-              }
-            });
-          } else {
-            alert('Codul nu este corect !');
+        if(handleEmails.ready()) {
+          const email = Emails.findOne({});
+          if(email) {
+            if(codeReset === email.codeReset) {
+              Meteor.call('users.resetPassword', address, password , (err, res) => {
+                if(!err) {
+                  Meteor.loginWithPassword(address, password);
+                }
+              });
+            } else {
+              alert('Codul nu este corect !');
+            }
           }
-        };
+        }
       });
     }
   }

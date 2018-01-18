@@ -3,7 +3,7 @@
   margin: $space auto;
   padding: $space;
   min-width: 250px;
-  width: 60%;
+  width: 70%;
 }
 
 .account__title {
@@ -22,13 +22,16 @@
   height: 30px;
 }
 
+.account__title span {
+  color: white;
+  border-radius: 5px;
+  background: red;
+  padding: 3px;
+}
+
 .account__content {
   background: #f7e5b7;
   padding: $space;
-}
-
-.account__content p {
-  color: red;
 }
 
 .account__button {
@@ -52,10 +55,125 @@
   height: 40px;
 }
 
+.account__search {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  flex-flow: row wrap;
+  button {
+    background: #74a6f7;
+  }
+  button, input {
+    border-radius: 5px;
+    box-sizing: border-box;
+    height: 40px;
+    padding: 5px;
+    width: 45%;
+  }
+}
+
+.account__messages {
+  display: flex;
+  justify-content: space-between;
+}
+
+.account__contacts {
+  display: inline-block;
+  padding: 5px;
+  width: 30%;
+  p {
+    padding: 5px;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+  p:hover {
+    cursor: pointer;
+    background: white;
+    border-radius: 5px;
+  }
+  span {
+    color: white;
+    border-radius: 5px;
+    background: red;
+    padding: 3px;
+  }
+}
+
+.contact__opened {
+  background: white;
+  border-radius: 5px;
+}
+
+.account__conversation {
+  padding: 5px;
+  max-height: 300px;
+  overflow-y: scroll;
+  width: 70%;
+  p {
+    margin-top: auto;
+    margin-bottom: auto;
+    padding: 5px;
+    text-align: center;
+  }
+}
+
+.message__send {
+  display: flex;
+  justify-content: space-around;
+  flex-flow: row wrap;
+  margin-top: 20px;
+  input {
+    border-radius: 5px;
+    box-sizing: border-box;
+    height: 40px;
+    padding: 10px;
+    width: 70%;
+  }
+  button {
+    background: #74a6f7;
+    border-radius: 5px;
+    height: 40px;
+    padding: 10px;
+    width: 30%;
+  }
+}
+
+.message__received {
+  background: white;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+  p {
+    text-align: left;
+  }
+}
+
+.message__sent {
+  padding: 5px;
+  p {
+    text-align: right;
+  }
+}
+
 @media (max-width: 600px) {
   .account__function {
     box-sizing: border-box;
     padding: $input-spacing;
     width: 100%;
+  }
+}
+@media (max-width: 450px) {
+  .message__send {
+    input, button {
+      width: 100%;
+    }
+  }
+  .account__search {
+    button{
+      width: 30%;
+    }
+    input {
+      width: 70%;
+    }
   }
 }

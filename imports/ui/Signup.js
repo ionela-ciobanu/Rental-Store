@@ -16,6 +16,7 @@ export default class Signup extends React.Component {
       error: '',
       showCode: 'none'
     };
+    this.onSubmit = this.onSubmit.bind(this);
     this.validateEmail = this.validateEmail.bind(this);
     this.codeVerification = this.codeVerification.bind(this);
   }
@@ -39,6 +40,7 @@ export default class Signup extends React.Component {
     e.preventDefault();
 
     let email = this.refs.email.value.trim();
+    let username = this.refs.username.value.trim();
     let password = this.refs.password.value.trim();
     let password2 = this.refs.password2.value.trim();
     let birthday = moment(this.refs.birthday.value);
@@ -47,6 +49,11 @@ export default class Signup extends React.Component {
 
     if(!this.validateEmail(email)) {
       this.setState({errorEmail: 'Email-ul nu este corect.'});
+      error = true;
+    }
+
+    if(username.length < 4) {
+      this.setState({errorUsername: 'Numele de utilizator trebuie sa contina cel putin 4 caractere.'});
       error = true;
     }
 
@@ -85,29 +92,35 @@ export default class Signup extends React.Component {
     }
   }
 
-  codeVerification() {
+  codeVerification(e) {
+    e.preventDefault();
     let address = this.refs.email.value.trim();
+    let username = this.refs.username.value.trim();
     let password = this.refs.password.value.trim();
     let birthday = moment(this.refs.birthday.value);
     let codeRegistration = this.refs.codeRegistration.value.trim();
 
     if(codeRegistration.length > 0) {
+      const handleEmails = Meteor.subscribe('emails', address);
       Tracker.autorun(() => {
-        Meteor.subscribe('emails', address);
-        const email = Emails.findOne({});
-        if(email) {
-          if(codeRegistration === email.codeRegistration) {
-            Accounts.createUser({email: address, password, birthday: birthday.format('YYYY-MM-DD')}, (err, res) => {
-              if(err) {
-                this.setState({error: err.reason});
-              } else {
-                this.setState({error: ''});
-              }
-            });
-          } else {
-            alert('Codul nu este corect !');
+        if(handleEmails.ready()) {
+          const email = Emails.findOne({});
+          if(email) {
+            if(codeRegistration === email.codeRegistration) {
+              Accounts.createUser({email: address, password, username, birthday: birthday.format('YYYY-MM-DD')}, (err, res) => {
+                if(err) {
+                  this.setState({error: err.reason});
+                } else {
+                  document.getElementById('formSend').reset();
+                  document.getElementById('formCheck').reset();
+                  this.setState({error: ''});
+                }
+              });
+            } else {
+              alert('Codul nu este corect !');
+            }
           }
-        };
+        }
       });
     } else {
       this.setState({errorCode: ' '});
@@ -119,14 +132,19 @@ export default class Signup extends React.Component {
       <div>
         <h1>Inregistrare</h1>
 
-        <form onSubmit={this.onSubmit.bind(this)} noValidate className="boxed-view__form">
+        <form id="formSend" onSubmit={this.onSubmit} noValidate className="boxed-view__form">
 
-          {this.state.error ? <p>{this.state.error}</p> : undefined}
           {this.state.errorEmail ? <p>{this.state.errorEmail}</p> : undefined}
           <input className={this.state.errorEmail ? 'text-input error' : 'text-input'}
                  type="email" ref="email" name="email" placeholder="Email"
                  onChange={(e) => {if(this.validateEmail(e.target.value.trim())) {
                                     this.setState({errorEmail: ''});
+                                  }}}/>
+
+          <input className={this.state.errorUsername ? 'text-input error' : 'text-input'}
+                 type="text" ref="username" name="username" placeholder="Nume utilizator"
+                 onChange={(e) => {if(e.target.value.trim().length >= 4) {
+                                    this.setState({errorUsername: ''});
                                   }}}/>
 
           {this.state.errorPassword ? <p>{this.state.errorPassword}</p> : undefined}
@@ -151,10 +169,11 @@ export default class Signup extends React.Component {
                                       this.setState({errorBirthday: ''});
                                     }}}/>
           </label>
-
           <button className="button">Trimite email-ul de confirmare</button>
+        </form>
 
-          <p style={{display: this.state.showCode}}>Vei primi un email cu codul de confirmare (verifica si folder-ul <i>spam</i>). Introdu codul mai jos si creaza-ti contul !</p>
+        <form id="formCheck" style={{display: this.state.showCode}} onSubmit={this.codeVerification} noValidate className="boxed-view__form">
+          <p>Vei primi un email cu codul de confirmare (verifica si folder-ul <i>spam</i>). Introdu codul mai jos si creeaza-ti contul !</p>
           {this.state.errorCode ? <p>{this.state.errorCode}</p> : undefined}
           <input className={this.state.errorCode ? 'text-input error' : 'text-input'}
                  type="text" ref="codeRegistration" name="codeRegistration" placeholder="Cod"
@@ -162,10 +181,8 @@ export default class Signup extends React.Component {
                  onChange={(e) => {if(e.target.value.trim().length > 0) {
                                     this.setState({errorCode: ''});
                                   }}}/>
-
-          <button type="button" className="button" style={{display: this.state.showCode}}
-            onClick={this.codeVerification}>Creaza cont</button>
-
+          {this.state.error ? <p>{this.state.error}</p> : undefined}
+          <button className="button">Creeaza cont</button>
         </form>
       </div>
     );

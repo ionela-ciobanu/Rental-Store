@@ -1,0 +1,97 @@
+.post__details {
+  padding: $space;
+  text-align: left;
+  img{
+    height: 150px;
+    width: auto;
+    padding: 1px;
+  }
+}
+.pins {
+  padding: 10px;
+  button {
+    background-color: #e8f7ee;
+    border-radius: 5px;
+    padding: 10px;
+    font-weight: bolder;
+    width: 50%;
+  }
+}
+.pins__details {
+  text-align: center;
+}
+.details__buttons {
+  display: flex;
+  justify-content: space-between;
+}
+.details__actions {
+  height: 30px;
+  margin-top: auto;
+  margin-bottom: auto;
+  position: relative;
+}
+.details__actions:hover .post__message {
+  visibility: visible;
+  transition: visibility 0.2s linear 0.2s;
+}
+.first__section {
+  display: flex;
+  justify-content: space-around;
+  flex-flow: row wrap;
+}
+.contact {
+  text-align: center;
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  flex-flow: row wrap;
+  width: 100%;
+  form {
+    width: 70%;
+  }
+  button {
+    font-size: 1.8rem;
+    padding: 10px;
+    width: 100%;
+  }
+  button:hover {
+    cursor: pointer;
+  }
+  p {
+    color: red;
+  }
+}
+.textarea {
+  height: 200px;
+  padding: 10px;
+  resize: none;
+  width: 100%;
+}
+.textarea::placeholder {
+  padding: 10px;
+  text-align: center;
+}
+.message__type {
+  font-weight: bolder;
+  display: flex;
+  padding: 10px;
+  justify-content: space-around;
+}
+.post__description {
+  font-size: 1.8rem;
+  font-weight: lighter;
+  padding: 10px;
+  text-align: center;
+}
+.post__message {
+  background-color: grey;
+}
+
+@media (max-width: 900px) {
+  .contact form, .contact button, .textarea {
+    box-sizing: border-box;
+    padding: 10px;
+    width: 100%;
+  }
+}

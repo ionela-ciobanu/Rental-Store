@@ -6,7 +6,7 @@ export const Emails = new Mongo.Collection('emails');
 
 if(Meteor.isServer) {
   Meteor.publish('emails', function(email) {
-    return Emails.find({email: email});
+    return Emails.find({email});
   });
 }
 

@@ -5,11 +5,16 @@
 }
 
 .page__element {
-  margin: 0 auto;
-  text-align: center;
-  width: 600px;
+  margin: 10px auto;
+  width: 80%;
 }
 
 .page__content h2 {
   text-align: center;
+}
+
+@media (max-width: 600px) {
+  .page__element {
+    width: 100%;
+  }
 }

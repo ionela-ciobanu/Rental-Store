@@ -11,16 +11,16 @@ if(Meteor.isServer) {
     return Posts.find({});
   });
   Meteor.publish('userPosts', function() {
-    let userId = Meteor.userId();
-    if(userId) {
-      return Posts.find({userId: userId});
+    if(!Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
     }
+    return Posts.find({userId: Meteor.userId()});
   });
 }
 
 Meteor.methods({
 
-  'posts.insert'(title, category, description, price, currency, period, city, images) {
+  'posts.insert'(title, category, description, price, currency, period, city, images, details) {
     if(!this.userId) {
       throw new Meteor.Error('not-authorized');
     }
@@ -35,31 +35,30 @@ Meteor.methods({
       period,
       city,
       images,
+      details,
       publishedAt: moment().format("DD/MM/YYYY HH:mm"),
       isAvailable: true,
       isBlocked: null,
       isBusy: false,
       likesCount: 0,
-      dislikesCount: 0,
-      dislikesReasons: [],
       publicMessages: []
     });
   },
-  'posts.update'(_id, images, title, category, description, price,
-                 currency, period, city) {
+  'posts.update'(_id, images, title, description, price,
+                 currency, period, city, details) {
     if(!this.userId) {
       throw new Meteor.Error('not-authorized');
     }
     Posts.update({_id}, {$set:
       {
-        images: images,
-        title: title,
-        category: category,
-        description: description,
-        price: price,
-        currency: currency,
-        period: period,
-        city: city
+        images,
+        title,
+        description,
+        price,
+        currency,
+        period,
+        city,
+        details
       }});
   },
   'posts.delete'(_id) {
@@ -74,26 +73,11 @@ Meteor.methods({
     }
     Posts.update({_id}, {$inc: {likesCount: 1}});
   },
-  'posts.incrementDislikesCount'(_id, reason) {
-    if(!Meteor.userId()) {
-      throw new Meteor.Error('not-authorized');
-    }
-    const dislikeReason = {'userId': Meteor.userId(), 'reason': reason};
-    Posts.update({_id}, {$inc: {dislikesCount: 1},
-      $addToSet: {dislikesReasons: dislikeReason}});
-  },
   'posts.decrementLikesCount'(_id) {
     if(!Meteor.userId()) {
       throw new Meteor.Error('not-authorized');
     }
     Posts.update({_id}, {$inc: {likesCount: -1}});
-  },
-  'posts.decrementDislikesCount'(_id) {
-    if(!Meteor.userId()) {
-      throw new Meteor.Error('not-authorized');
-    }
-    Posts.update({_id}, {$inc: {dislikesCount: -1},
-      $pull: {dislikesReasons: {userId: Meteor.userId()}}});
   },
   'posts.blockPost'(_id) {
     if(!Meteor.userId()) {
@@ -120,10 +104,10 @@ Meteor.methods({
     }
     Posts.update({_id}, {$set: {isAvailable: true, isBusy: false}});
   },
-  'posts.addPublicMessage'(message, _id) {
+  'posts.deleteAllPosts'() {
     if(!Meteor.userId()) {
       throw new Meteor.Error('not-authorized');
     }
-    Posts.update({_id}, {$addToSet: {publicMessages: {message, senderId: Meteor.userId(), read: false}}});
+    Posts.remove({userId: Meteor.userId()});
   }
 });

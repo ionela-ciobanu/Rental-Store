@@ -12,27 +12,26 @@ export default class PostsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: []
+      posts: [],
+      userData: {}
     };
     this.renderPostsListItems = this.renderPostsListItems.bind(this);
     this.getPeriod = this.getPeriod.bind(this);
   }
   componentDidMount() {
-    Meteor.setTimeout(() => {
-      var handlePosts = Meteor.subscribe('posts');
-      this.allPostsTracker = Tracker.autorun(() => {
-        if(handlePosts.ready()) {
-          this.setState({posts: Posts.find({}).fetch()});
-        }
-      });
+    var handlePosts = Meteor.subscribe('posts');
+    this.allPostsTracker = Tracker.autorun(() => {
+      if(handlePosts.ready()) {
+        this.setState({posts: Posts.find({}).fetch()});
+      }
+    });
 
-      var handleUserData = Meteor.subscribe('userData');
-      this.userTracker = Tracker.autorun(() => {
-        if(handleUserData.ready()) {
-          Session.set('userData', Meteor.users.findOne({}));
-        }
-      });
-    },100);
+    var handleUserData = Meteor.subscribe('userData');
+    this.userTracker = Tracker.autorun(() => {
+      if(handleUserData.ready()) {
+        Session.set('userData', Meteor.users.findOne({}));
+      }
+    });
   }
   componentWillUnmount() {
     this.allPostsTracker.stop();

@@ -10,12 +10,40 @@ if (Meteor.isServer) {
     if(!Meteor.userId()) {
       throw new Meteor.Error('not-authorized');
     }
-    return Meteor.users.find({_id: this.userId},
+    return Meteor.users.find({_id: Meteor.userId()},
       {
       fields: {
         "emails": 1,
+        "username": 1,
         "profile": 1,
         "personalInfo": 1
+      }
+    });
+  });
+  Meteor.publish('userInfo', function(_id) {
+    if(!Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
+    return Meteor.users.find({_id},
+      {
+      fields: {
+        "emails": 1,
+        "username": 1,
+        "profile": 1,
+        "personalInfo": 1
+      }
+    });
+  });
+  Meteor.publish('usernames', function() {
+    if(!Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
+    return Meteor.users.find({_id: {$ne: Meteor.userId()}},
+      {
+      fields: {
+        "_id": 1,
+        "emails": 1,
+        "username": 1
       }
     });
   });
@@ -59,17 +87,7 @@ Meteor.methods ({
       throw new Meteor.Error('not-authorized');
     }
     Meteor.users.update(Meteor.userId(), {
-      $addToSet: {'personalInfo.yesList' : _id },
-      $pull: {'personalInfo.noList': _id}
-    });
-  },
-  'users.addToNoList'(_id) {
-    if(!Meteor.userId()) {
-      throw new Meteor.Error('not-authorized');
-    }
-    Meteor.users.update(Meteor.userId(), {
-      $addToSet: {'personalInfo.noList': _id},
-      $pull: {'personalInfo.yesList': _id}
+      $addToSet: {'personalInfo.yesList' : _id }
     });
   },
   'users.removeFromYesList'(_id) {
@@ -78,14 +96,6 @@ Meteor.methods ({
     }
     Meteor.users.update(Meteor.userId(), {
       $pull: {'personalInfo.yesList': _id}
-    });
-  },
-  'users.removeFromNoList'(_id) {
-    if(!Meteor.userId()) {
-      throw new Meteor.Error('not-authorized');
-    }
-    Meteor.users.update(Meteor.userId(), {
-      $pull: {'personalInfo.noList': _id}
     });
   },
   'users.addToBlockedPosts'(_id) {
@@ -122,29 +132,11 @@ Meteor.methods ({
       $pull: {'personalInfo.inactivePosts': {_id}}
     });
   },
-  'users.sendPublicMessage'(message, _id, receiverId) {
+  'users.deleteAccount'() {
     if(!Meteor.userId()) {
       throw new Meteor.Error('not-authorized');
     }
-    Meteor.users.update(Meteor.userId(), {
-      $addToSet: {'personalInfo.sentMessages': {message, receiverId, read: false, isPublic: true, postId: _id}}
-    });
-    Meteor.users.update({_id: receiverId}, {
-      $inc: {'personalInfo.newMessagesCount': 1},
-      $addToSet: {'personalInfo.receivedMessages': {message, senderId: Meteor.userId(), read: false, isPublic: true, postId: _id}}
-    });
-  },
-  'users.sendMessage'(message, receiverId) {
-    if(!Meteor.userId()) {
-      throw new Meteor.Error('not-authorized');
-    }
-    Meteor.users.update(Meteor.userId(), {
-      $addToSet: {'personalInfo.sentMessages': {message, receiverId, read: false, isPublic: false}}
-    });
-    Meteor.users.update({_id: receiverId}, {
-      $inc: {'personalInfo.newMessagesCount': 1},
-      $addToSet: {'personalInfo.receivedMessages': {message, senderId: Meteor.userId(), read: false, isPublic: false}}
-    });
+    Meteor.users.remove(Meteor.userId());
   }
 });
 
@@ -152,6 +144,7 @@ Accounts.onCreateUser(function(options, user) {
    user.profile = options.profile || {};
    user.profile.birthday = options.birthday;
    user.emails[0].verified = true;
+   user.username = options.username;
 
    const newInfos = {
      lastName: "",
@@ -159,13 +152,9 @@ Accounts.onCreateUser(function(options, user) {
      address: "",
      phone: "",
      yesList: [],
-     noList: [],
      blockedPosts: [],
      canBlock: true,
-     inactivePosts: [],
-     receivedMessages: [],
-     sentMessages: [],
-     newMessagesCount: 0
+     inactivePosts: []
    };
    user.personalInfo = newInfos;
 

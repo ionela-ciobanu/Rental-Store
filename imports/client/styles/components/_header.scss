@@ -17,9 +17,29 @@
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-end;
+  p {
+    padding: $input-spacing;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+  p:hover {
+    cursor: pointer;
+  }
+}
+
+.header__account {
+  margin-top: auto;
+  margin-bottom: auto;
+  span {
+    border-radius: 5px;
+    background: red;
+    padding: 3px;
+  }
 }
 
 .header__title {
+  font-family: Garamond;
+  font-size: 3rem;
   color: white;
   margin: 0;
 }

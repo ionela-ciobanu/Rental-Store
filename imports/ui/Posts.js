@@ -18,28 +18,34 @@ export default class PostsList extends React.Component {
     };
     this.renderPostsListItems = this.renderPostsListItems.bind(this);
     this.getPeriod = this.getPeriod.bind(this);
+    this.startTracking = this.startTracking.bind(this);
   }
-  componentDidMount() {
-    Meteor.setTimeout(() => {
-      var handlePosts = Meteor.subscribe('posts');
-      this.allPostsTracker = Tracker.autorun(() => {
-        if(handlePosts.ready()) {
-          this.setState({posts: Posts.find({}).fetch()});
-        }
-      });
 
-      var handleUserData = Meteor.subscribe('userData');
-      this.userTracker = Tracker.autorun(() => {
-        if(handleUserData.ready()) {
-          Session.set('userData', Meteor.users.findOne({}));
-        }
-      });
-    },100);
+  componentDidMount() {
+    Meteor.setTimeout(this.startTracking, 0);
   }
+
   componentWillUnmount() {
     this.allPostsTracker.stop();
     this.userTracker.stop();
   }
+
+  startTracking() {
+    var handlePosts = Meteor.subscribe('posts');
+    this.allPostsTracker = Tracker.autorun(() => {
+      if(handlePosts.ready()) {
+        this.setState({posts: Posts.find({}).fetch()});
+      }
+    });
+
+    var handleUserData = Meteor.subscribe('userData');
+    this.userTracker = Tracker.autorun(() => {
+      if(handleUserData.ready()) {
+        Session.set('userData', Meteor.users.findOne({}));
+      }
+    });
+  }
+
   renderPostsListItems() {
     if(this.state.posts.length === 0) {
       return (
@@ -53,6 +59,7 @@ export default class PostsList extends React.Component {
       return <PrivatePost key={post._id} {...post}/>;
     });
   }
+
   getPeriod(post) {
     if(post.isBlocked) {
       const isBlocked = moment(this.props.isBlocked);
@@ -64,6 +71,7 @@ export default class PostsList extends React.Component {
       }
     }
   }
+
   render() {
     return (
       <div>
