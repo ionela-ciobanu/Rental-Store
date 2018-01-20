@@ -1,5 +1,5 @@
 .search-bar {
-  background-color: #820114;
+  background: linear-gradient(#e8f7ee, #42ed86);
   color: white;
   margin-bottom: $space;
   min-width: 250px;
@@ -7,6 +7,32 @@
 
 .search-bar__form {
   color: white;
+  display: flex;
+  justify-content: center;
+  flex-flow: row wrap;
+  max-width: $site-max-width;
+  padding: $input-spacing;
+  button {
+    border-radius: 5px;
+    font-family: Garamond;
+    font-size: 1.8rem;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 15px;
+  }
+}
+
+.checkbox {
+  color: #008066;
+  display: block;
+  margin-left: 5px;
+  margin-bottom: $space;
+}
+
+.checkbox__box {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: $space / 2;
 }
 
 .search-bar__element {
@@ -16,21 +42,24 @@
   padding: $input-spacing;
 }
 
-.search-bar__input {
-  background: #820114;
-  border: none;
-  border-bottom: 2px white solid;
-  color: white;
-  font-size: $base-font-size;
-  margin-top: auto;
-  margin-bottom: auto;
-  margin-right: $space;
+.search-bar__checkbox {
+  display: flex;
+  justify-content: center;
+  flex-flow: row wrap;
+  max-width: $site-max-width;
   padding: $input-spacing;
-  text-align: center;
 }
 
-.search-bar__input::placeholder {
-  color: white;
+.search-bar__input {
+  border: none;
+  border-radius: 5px;
+  font-family: Garamond;
+  font-size: 1.8rem;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-right: $space;
+  padding: 10px;
+  text-align: center;
 }
 
 .search-bar__input:focus {

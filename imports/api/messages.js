@@ -40,5 +40,11 @@ Meteor.methods({
   },
   'messages.markRead'(receiverId, senderId) {
     Messages.update({receiverId, senderId, isPublic: false}, {$set: {read: true}}, {multi: true});
+  },
+  'messages.markPostMessagesRead'(postId) {
+    Messages.update({postId}, {$set: {read: true}}, {multi: true});
+  },
+  'messages.deleteAllMessages'() {
+    Messages.remove({$or: [{senderId: Meteor.userId()}, {receiverId: Meteor.userId()}]});
   }
 });

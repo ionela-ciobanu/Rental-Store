@@ -14,9 +14,14 @@ export default class PrivateHeader extends React.Component {
       allMyMessages: null
     };
     this.getUnreadMessages = this.getUnreadMessages.bind(this);
+    this.startTracking = this.startTracking.bind(this);
   }
 
   componentDidMount() {
+    Meteor.setTimeout(this.startTracking, 0);
+  }
+
+  startTracking() {
     var handleMessages = Meteor.subscribe('allMyMessages');
     this.messagesTracker = Tracker.autorun(() => {
       if(handleMessages.ready()) {
@@ -49,11 +54,19 @@ export default class PrivateHeader extends React.Component {
           <div className="header__content">
             <h1 className="header__title"><Link className="header__link" to='/'>{this.props.title}</Link></h1>
             <div className="header__menu">
-                <Link className="button header__link" to='/addPost'>Adauga un anunt</Link>
+              <Link className="button header__link" to='/posts' onClick={() => {
+                Session.set({category: null, keyword: null, isAvailable: false, showMyPosts: false,
+                  currency: null, maxPrice: null, city: null});
+                  }}>Toate anunturile</Link>
+              <Link className="button header__link" to='/addPost'>Adauga un anunt</Link>
               <div className="header__account">
                 <Link className="button header__link" to='/myAccount'>Contul meu</Link>
                 {Session.get('unreadMessages') > 0 ?
-                  <span>{Session.get('unreadMessages')}</span>
+                  <Link to="/myAccount"><div className="bell">
+                    <p className="bell__message">{Session.get('unreadMessages') === 1 ?
+                      'Ai un mesaj nou' : 'Ai ' + Session.get('unreadMessages') + ' mesaje noi'
+                    }</p>
+                  </div></Link>
                 : undefined }
               </div>
               <p onClick={() => Accounts.logout()}>Logout</p>

@@ -1,7 +1,6 @@
 import {Meteor} from 'meteor/meteor';
 import {Tracker} from 'meteor/tracker';
 import React from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import {Link} from 'react-router-dom';
 import {Session} from 'meteor/session';
@@ -42,6 +41,11 @@ export default class PrivatePost extends React.Component {
   addToYesList() {
     Meteor.call('users.addToYesList', this.props._id);
     Meteor.call('posts.incrementLikesCount', this.props._id);
+
+    this.getUserInfo(this.props.userId, (res) => {
+      Meteor.call('sendEmail', res.emails[0].address, 'support@rentalstore.com', 'Rental Store - Cineva este interesat de anuntul tau.',
+        `${Meteor.user().username} este interesat de anuntul tau cu codul ${this.props._id}.`);
+    });
   }
 
   removeFromYesList() {
@@ -104,14 +108,8 @@ export default class PrivatePost extends React.Component {
     Meteor.call('posts.blockPost', this.props._id);
 
     this.getUserInfo(this.props.userId, (res) => {
-      // Meteor.call('sendEmail', res.emails[0].address, 'support@rentalstore.com', 'Rental Store - Anuntul tau a fost blocat.',
-      //   `${Meteor.user().username} a blocat anuntul tau cu codul ${this.props._id}.`, (err, res) => {
-      //   if(!err) {
-      //     console.log('Email-ul a fost trimis.');
-      //   } else {
-      //     console.log('Email-ul NU a fost trimis');
-      //   }
-      // });
+      Meteor.call('sendEmail', res.emails[0].address, 'support@rentalstore.com', 'Rental Store - Anuntul tau a fost blocat.',
+        `${Meteor.user().username} a blocat anuntul tau cu codul ${this.props._id}.`);
     });
   }
 
@@ -256,8 +254,17 @@ export default class PrivatePost extends React.Component {
                     <div className="post__inactiveTags">
                       {!Session.get('userData').personalInfo.yesList.includes(this.props._id) ?
                         <img src="greenBox.png" className="post__icon" onClick={this.addToYesList}/>
-                      : <img src="greyBox.png" className="post__icon"
-                        onClick={this.removeFromYesList} /> }
+                      : <img src="greyBox.png" className="post__icon" onClick={this.removeFromYesList} /> }
+                        <div className="post__no">
+                          {Session.get('userData').personalInfo.yesList.includes(this.props._id) ?
+                            <i>Nu ma intereseaza</i>
+                          : <i>Ma intereseaza</i>}
+                        </div>
+                    </div>
+                    <div className="post__yes">
+                      {Session.get('userData').personalInfo.yesList.includes(this.props._id) ?
+                        <i>Ma intereseaza</i>
+                      : <i>Nu ma intereseaza</i>}
                     </div>
                   </div>
                 </div>
@@ -278,7 +285,10 @@ export default class PrivatePost extends React.Component {
             </div>
           }
 
-          {this.props.images.length > 0 ? <img src={this.props.images[0].src} className="post__image" /> : undefined}
+          {this.props.images !== undefined ?
+            this.props.images.length > 0 ? <img src={this.props.images[0].src} className="post__image" /> :
+              <img src="noImage.png" className="post__image"/>
+          : undefined }
 
           <table>
             <tbody>
@@ -299,17 +309,3 @@ export default class PrivatePost extends React.Component {
     );
   }
 }
-
-PrivatePost.propTypes = {
-  _id: PropTypes.string.isRequired,
-  category: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  price: PropTypes.string.isRequired,
-  currency: PropTypes.string.isRequired,
-  period: PropTypes.string.isRequired,
-  city: PropTypes.string.isRequired,
-  publishedAt: PropTypes.string.isRequired,
-  isAvailable: PropTypes.bool.isRequired,
-  isBusy: PropTypes.bool,
-  likesCount: PropTypes.number.isRequired
-};

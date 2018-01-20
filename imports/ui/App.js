@@ -13,15 +13,21 @@ export default class App extends React.Component {
       posts: []
     };
     this.renderPostsListItems.bind(this);
+    this.startTracking = this.startTracking.bind(this);
   }
   componentDidMount() {
+    Meteor.setTimeout(this.startTracking, 0);
+  }
+
+  startTracking() {
     var handlePosts = Meteor.subscribe('posts');
     this.postsTracker = Tracker.autorun(() => {
       if(handlePosts.ready()) {
-        this.setState({posts: Posts.find({}).fetch()});
+        this.setState({posts: Posts.find({isBusy: true}).fetch()});
       }
     });
   }
+
   componentWillUnmount() {
     this.postsTracker.stop();
   }

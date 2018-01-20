@@ -4,6 +4,30 @@
   min-width: 250px;
 }
 
+.bell {
+  background-image: url("bell.png");
+  background-size: 3rem 3rem;
+  background-repeat: no-repeat;
+  width: 3rem;
+  height: 3rem;
+  margin-top: auto;
+  margin-bottom: auto;
+  position: relative;
+}
+.bell__message {
+  background: linear-gradient(#e8f7ee, #42ed86);
+  border-radius: 5px;
+  color: black;
+  position: absolute;
+  visibility: hidden;
+  top: 100%;
+  right: 100%;
+  width: 110px;
+}
+.bell:hover .bell__message {
+  visibility: visible;
+}
+
 .header__content {
   align-items: center;
   display: flex;
@@ -28,13 +52,10 @@
 }
 
 .header__account {
+  display: flex;
+  justify-content: flex-end;
   margin-top: auto;
   margin-bottom: auto;
-  span {
-    border-radius: 5px;
-    background: red;
-    padding: 3px;
-  }
 }
 
 .header__title {

@@ -19,6 +19,7 @@
 
 .button-submit {
   background: green;
+  border: none;
   color: white;
   border-radius: 10px;
   font-size: 1.8rem;
@@ -28,11 +29,12 @@
 }
 
 .button-cancel {
-  background: #cc3300;
+  background: #c90d04;
+  border: none;
   border-radius: 10px;
   color: white;
-  font-size: 1.6rem;
-  margin-bottom: $space;
+  font-size: 1.8rem;
+  margin: $space auto;
   padding: $space;
   width: 100%;
 }

@@ -6,7 +6,7 @@ import {Route, Router, Switch} from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 
 import App from '../ui/App';
-import PostsList from '../ui/Posts';
+import PostsList from '../ui/PostsList';
 import NotFound from '../ui/NotFound';
 import AddPost from '../ui/AddPost';
 import PostDetails from '../ui/PostDetails';

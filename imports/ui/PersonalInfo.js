@@ -7,13 +7,17 @@ export default class PersonalInfo extends React.Component {
     super(props);
     this.state ={
       error: '',
-      userData: {},
-      displayPersonal: 'none'
+      userData: {}
     }
     this.onSubmit = this.onSubmit.bind(this);
+    this.startTracking = this.startTracking.bind(this);
   }
 
   componentDidMount() {
+    Meteor.setTimeout(this.startTracking, 0);
+  }
+
+  startTracking() {
     var handle = Meteor.subscribe('userData');
     this.userTracker = Tracker.autorun(() => {
       if(handle.ready()) {
@@ -61,7 +65,7 @@ export default class PersonalInfo extends React.Component {
       this.setState({error: ''});
 
       Meteor.call('users.update', lastName, firstName, address, phone);
-      this.setState({displayPersonal: 'none'});
+      Session.set({displayPersonal: 'none'});
     } else {
       this.setState({error: 'Verifica datele introduse !'});
     }
@@ -70,13 +74,12 @@ export default class PersonalInfo extends React.Component {
   render () {
     return (
       <div className="account__function">
-        <div className="account__title">
+        <div className="account__title" onClick={() => {Session.get('displayPersonal') === 'none' ? Session.set('displayPersonal', 'block') :
+                                                                Session.set('displayPersonal', 'none')}}>
           <h3>Editeaza informatiile personale</h3>
-          <img src={this.state.displayPersonal === 'none' ? '/arrow-down.png' : '/arrow-up.png'}
-            onClick={() => {this.state.displayPersonal === 'none' ? this.setState({displayPersonal: 'block'}) :
-                                                                    this.setState({displayPersonal: 'none'})}}/>
+          <img src={Session.get('displayPersonal') === 'none' ? '/arrow-down.png' : '/arrow-up.png'}/>
         </div>
-        <div className="account__content" style={{display: this.state.displayPersonal}}>
+        <div className="account__content" style={{display: Session.get('displayPersonal')}}>
 
           {this.state.userData !== undefined && this.state.userData.personalInfo !== undefined?
             <form onSubmit={this.onSubmit}>

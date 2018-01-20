@@ -1,6 +1,6 @@
 .post {
   background: $item-bg;
-  border: 5px solid $item-border;
+  border: 5px solid white;
   padding: $space;
   width: 250px;
   h2 {
@@ -47,6 +47,10 @@
     margin-top: auto;
     margin-bottom: auto;
   }
+}
+.post__pins {
+  margin-top: auto;
+  margin-bottom: auto;
 }
 .post__pin {
   border-radius: 5px;
@@ -119,8 +123,35 @@
   height: 3rem;
   position: relative;
 }
+.post__yes {
+  background: white;
+  border-radius: 5px;
+  color: black;
+  font-family: Garamond;
+  font-size: 2.0rem;
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 0%;
+  padding: 5px;
+  visibility: hidden;
+  width: 150px;
+}
+.post__no {
+  background: white;
+  border-radius: 5px;
+  color: black;
+  font-family: Garamond;
+  font-size: 2.0rem;
+  position: absolute;
+  z-index: 1;
+  left: 100%;
+  padding: 5px;
+  visibility: hidden;
+  width: 150px;
+}
 .post__inactiveTags {
-  background-color: $item-bg;
+  background-color: #fcfac4;
   border-radius: 10%;
   display:flex;
   visibility: hidden;
@@ -129,7 +160,11 @@
   bottom: 100%;
   transition: visibility 0.2s linear;
 }
-.post__activeTag:hover .post__inactiveTags {
+.post__activeTag:hover .post__inactiveTags, .post__activeTag:hover .post__yes {
+  visibility: visible;
+  transition: visibility 0.2s linear 0.2s;
+}
+.post__inactiveTags:hover .post__no {
   visibility: visible;
   transition: visibility 0.2s linear 0.2s;
 }

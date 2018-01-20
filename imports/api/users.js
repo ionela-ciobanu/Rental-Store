@@ -43,7 +43,8 @@ if (Meteor.isServer) {
       fields: {
         "_id": 1,
         "emails": 1,
-        "username": 1
+        "username": 1,
+        "personalInfo": 1
       }
     });
   });
@@ -66,7 +67,6 @@ Meteor.methods ({
     const user = Accounts.findUserByEmail(email);
     if(user) {
       Accounts.setPassword(user._id, newPassword);
-      console.log(`Parola utilizatorului ${email} a fost schimbata cu succes.`);
     }
   },
   'sendEmail'(to, from, subject, text) {
@@ -76,7 +76,6 @@ Meteor.methods ({
     this.unblock();
     try {
       Email.send({ to, from, subject, text });
-      console.log(`Email-ul catre ${to} a fost trimis.`);
     }
     catch (e) {
       throw new Error(`Email-ul catre ${to} NU a fost trimis.`);
@@ -132,6 +131,21 @@ Meteor.methods ({
       $pull: {'personalInfo.inactivePosts': {_id}}
     });
   },
+  'users.addSearch'(city, category, keyword, maxPrice, currency) {
+    if(!Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
+    Meteor.users.update(Meteor.userId(), {
+      $addToSet: {'personalInfo.searchCriteria': {city, category, keyword, maxPrice, currency}}
+    });
+  },
+  'users.removeReferences'(postId) {
+    if(!Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
+    Meteor.users.update({}, {$pull: {'personalInfo.yesList': postId}},
+      {$pull: {'personalInfo.blockedPosts': postId}});
+  },
   'users.deleteAccount'() {
     if(!Meteor.userId()) {
       throw new Meteor.Error('not-authorized');
@@ -154,7 +168,8 @@ Accounts.onCreateUser(function(options, user) {
      yesList: [],
      blockedPosts: [],
      canBlock: true,
-     inactivePosts: []
+     inactivePosts: [],
+     searchCriteria: [{city: '', category: '', keyword: '', maxPrice: '', currency: ''}]
    };
    user.personalInfo = newInfos;
 

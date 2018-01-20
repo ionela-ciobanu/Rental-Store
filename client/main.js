@@ -12,6 +12,7 @@ Tracker.autorun(() => {
 });
 
 Meteor.startup(() => {
-  Session.set('unreadMessages', 0);
+  Session.set({unreadMessages: 0, category: null, keyword: null, isAvailable: false, showMyPosts: false,
+    currency: null, maxPrice: null, displayPersonal: 'none', city: null});
   ReactDOM.render(routes, document.getElementById('app'));
 });

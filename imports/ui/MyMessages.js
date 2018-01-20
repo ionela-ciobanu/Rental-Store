@@ -26,9 +26,14 @@ export default class MyMessages extends React.Component {
     this.sortArray = this.sortArray.bind(this);
     this.goToByScroll = this.goToByScroll.bind(this);
     this.getUnreadMessages = this.getUnreadMessages.bind(this);
+    this.startTracking = this.startTracking.bind(this);
   }
 
   componentDidMount() {
+    Meteor.setTimeout(this.startTracking, 0);
+  }
+
+  startTracking() {
     var handle = Meteor.subscribe('userData');
     this.userTracker = Tracker.autorun(() => {
       if(handle.ready()) {
@@ -110,7 +115,7 @@ export default class MyMessages extends React.Component {
       });
     });
     if(count > 0) {
-      return <span>{count}</span>;
+      return <span>({count})</span>;
     }
     return '';
   }
@@ -123,10 +128,6 @@ export default class MyMessages extends React.Component {
       return -1;
     }
     return 0;
-  }
-
-  markMessages() {
-
   }
 
   searchByUsername() {
@@ -173,13 +174,12 @@ export default class MyMessages extends React.Component {
       <div className="account__function">
         {this.state.userData !== undefined ?
           this.state.userData.personalInfo !== undefined ?
-          <div className="account__title">
+          <div className="account__title" onClick={() => {this.state.displayMessages === 'none' ? this.setState({displayMessages: 'block'}) :
+                                                                  this.setState({displayMessages: 'none'})}}>
             <h3>Mesajele mele {this.state.unreadMessages !== null && this.state.contacts !== null ?
                                 this.getUnreadMessages()
                               : undefined }</h3>
-            <img src={this.state.displayMessages === 'none' ? '/arrow-down.png' : '/arrow-up.png'}
-              onClick={() => {this.state.displayMessages === 'none' ? this.setState({displayMessages: 'block'}) :
-                                                                      this.setState({displayMessages: 'none'})}}/>
+            <img src={this.state.displayMessages === 'none' ? '/arrow-down.png' : '/arrow-up.png'}/>
           </div>
           : undefined
         : undefined }
@@ -224,7 +224,7 @@ export default class MyMessages extends React.Component {
                       this.state.unreadMessages.map((unreadMessage) => {
                         if(unreadMessage.contact === contact) {
                           if(unreadMessage.i > 0) {
-                            return <span key={unreadMessage.contact._id}>{unreadMessage.i}</span>;
+                            return <span key={unreadMessage.contact._id}>({unreadMessage.i})</span>;
                           }
                           return ;
                         }

@@ -25,7 +25,8 @@ export default class AddPost extends React.Component {
       showApartamente: 'none',
       showSuprafata: 'none',
       showImbracaminte: 'none',
-      userData: {}
+      userData: {},
+      usernames: []
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.onImageDrop = this.onImageDrop.bind(this);
@@ -35,9 +36,15 @@ export default class AddPost extends React.Component {
     this.removeImages = this.removeImages.bind(this);
     this.setSelectedToFalse = this.setSelectedToFalse.bind(this);
     this.onCategoryChange = this.onCategoryChange.bind(this);
+    this.checkSearchCriteria = this.checkSearchCriteria.bind(this);
+    this.startTracking = this.startTracking.bind(this);
   }
 
   componentDidMount() {
+    Meteor.setTimeout(this.startTracking, 0);
+  }
+
+  startTracking() {
     var handle = Meteor.subscribe('userData');
     this.userTracker = Tracker.autorun(() => {
       if(handle.ready()) {
@@ -45,9 +52,33 @@ export default class AddPost extends React.Component {
         this.setState({userData});
       }
     });
+
+    var handleUsernames = Meteor.subscribe('usernames');
+    this.usernamesTracker = Tracker.autorun(() => {
+      if(handleUsernames.ready()) {
+        const usernames = Meteor.users.find({_id: {$ne: Meteor.userId()}}).fetch();
+        this.setState({usernames});
+      }
+    });
   }
+
   componentWillUnmount() {
     this.userTracker.stop();
+    this.usernamesTracker.stop();
+  }
+
+  checkSearchCriteria(city, category, title, price, currency, res) {
+    this.state.usernames.map((user) => {
+      if(user.personalInfo.searchCriteria.length > 0) {
+        user.personalInfo.searchCriteria.map((search) => {
+          if(search.city === city && search.category === category && search.currency === currency
+          && search.maxPrice <= price && title.toLowerCase().includes(search.keyword.toLowerCase())) {
+            Meteor.call('sendEmail', user.emails[0].address, 'support@rentalstore.com', 'Rental Store - Anunt nou',
+              `${Meteor.user().username} a adaugat un anunt care te poate interesa. Il poti vedea aici: ${"rental-store-ionela.herokuapp.com/posts/" + res} .`);
+          }
+        })
+      }
+    });
   }
 
   onSubmit(e, callback) {
@@ -200,17 +231,17 @@ export default class AddPost extends React.Component {
       this.uploadImagesToCloudinary(this.state.files, (cloudinaryImages) => {
         Meteor.call('posts.insert', title, category, description, price, currency, period, city, cloudinaryImages, details, (err, res) => {
           if (!err) {
-            console.log('Anuntul a fost adaugat cu succes');
             callback();
             this.setState({files: []});
             this.setState({images: []});
             this.setState({cloudinaryImages: []});
             document.getElementById('form').reset();
+            this.checkSearchCriteria(city, category, title, price, currency, res);
+            alert('Anuntul a fost adaugat !');
           }
           else {
             this.setState({error: err.reason});
             callback();
-            console.log('error reason', err.reason);
           }
         });
       });
@@ -371,7 +402,7 @@ export default class AddPost extends React.Component {
               </div>
 
               <div className="form__element">
-                <select className={this.state.errorCategory ? 'text-input error' : 'text-input'}
+                <select id="select" className={this.state.errorCategory ? 'text-input error' : 'text-input'}
                         ref="category" name="category" onChange={this.onCategoryChange}>
 
                   <option value="">Alege o categorie</option>
@@ -612,12 +643,6 @@ export default class AddPost extends React.Component {
                 </label>
               </div>
 
-              <div className="form__element">
-                <Dropzone multiple onDrop={this.onImageDrop} accept="image/*" className="form__dropzone">
-                  <h2>Trage imaginile aici sau apasa pentru a le selecta.</h2>
-                </Dropzone>
-              </div>
-
               {this.state.images.length > 0 ?
                 <div className="form__element">
                   <div className="form__center">
@@ -628,6 +653,12 @@ export default class AddPost extends React.Component {
                   </div>
                 </div>
               : undefined}
+
+              <div className="form__element">
+                <Dropzone multiple onDrop={this.onImageDrop} accept="image/*" className="form__dropzone">
+                  <h2>Trage imaginile aici sau apasa pentru a le selecta.</h2>
+                </Dropzone>
+              </div>
 
               <div className="form__center">
                 {this.state.error ? <p>{this.state.error}</p> : undefined}
@@ -641,7 +672,7 @@ export default class AddPost extends React.Component {
 
             : <div>
                 <h2>Pentru a publica un anunt, adauga informatiile personale !</h2>
-                <h2><Link to="/myAccount">Editeaza informatiile</Link></h2>
+                <h2><Link to="/myAccount" onClick={() => {Session.set('displayPersonal', 'block')}}>Editeaza informatiile</Link></h2>
               </div>
           : undefined }
 

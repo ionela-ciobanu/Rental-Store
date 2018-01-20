@@ -24,8 +24,9 @@ Meteor.methods({
     if(!this.userId) {
       throw new Meteor.Error('not-authorized');
     }
+    let _id = shortid.generate();
     Posts.insert({
-      _id: shortid.generate(),
+      _id,
       userId: this.userId,
       title,
       category,
@@ -43,6 +44,7 @@ Meteor.methods({
       likesCount: 0,
       publicMessages: []
     });
+    return _id;
   },
   'posts.update'(_id, images, title, description, price,
                  currency, period, city, details) {

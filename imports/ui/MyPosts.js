@@ -42,9 +42,14 @@ export default class MyPosts extends React.Component {
     this.setSelectedToFalse = this.setSelectedToFalse.bind(this);
     this.handleModalClose = this.handleModalClose.bind(this);
     this.getPostMessages = this.getPostMessages.bind(this);
+    this.startTracking = this.startTracking.bind(this);
   }
 
   componentDidMount() {
+    Meteor.setTimeout(this.startTracking, 0);
+  }
+
+  startTracking() {
     const handlePosts = Meteor.subscribe('userPosts');
     this.postsTracker = Tracker.autorun(() => {
       if(handlePosts.ready()) {
@@ -227,15 +232,12 @@ export default class MyPosts extends React.Component {
                        title, description, price, currency,
                        period, city, details, (err, res) => {
             if (!err) {
-              console.log('Anuntul s-a modificat cu succes');
-
               this.setState({files: [], images: allImages, cloudinaryImages: []});
               document.getElementById('form').reset();
               this.setState({isOpen: false});
             }
             else {
               this.setState({error: err.reason});
-              console.log('error reason', err.reason);
             }
           });
         });
@@ -245,15 +247,12 @@ export default class MyPosts extends React.Component {
                      title, description, price, currency,
                      period, city, details, (err, res) => {
           if (!err) {
-            console.log('Anuntul s-a modificat cu succes');
-
             this.setState({files: [], images: allImages, cloudinaryImages: []});
             document.getElementById('form').reset();
             this.setState({isOpen: false});
           }
           else {
             this.setState({error: err.reason});
-            console.log('error reason', err.reason);
           }
         });
       }
@@ -371,7 +370,6 @@ export default class MyPosts extends React.Component {
         }
       });
       this.setState({postMessages});
-      console.log('postMessages', postMessages);
       const unreadMessages = [];
       postMessages.map((postMessage) => {
         const i = 0;
@@ -382,7 +380,6 @@ export default class MyPosts extends React.Component {
         });
         unreadMessages.push({postMessage, i});
       });
-      console.log('unreadMessages', unreadMessages);
       this.setState({unreadMessages});
     }, 1000);
   }
@@ -397,7 +394,7 @@ export default class MyPosts extends React.Component {
       })
     });
     if(count > 0) {
-      return <span>{count}</span>;
+      return <span>({count})</span>;
     }
     return '';
   }
@@ -405,13 +402,12 @@ export default class MyPosts extends React.Component {
   render() {
     return (
       <div className="account__function">
-        <div className="account__title">
+        <div className="account__title" onClick={() => {this.state.displayPosts === 'none' ? this.setState({displayPosts: 'block'}) :
+                        this.setState({displayPosts: 'none'})}}>
           <h3>Anunturile mele {this.state.unreadMessages !== null && this.state.postMessages !== null ?
                               this.getUnreadMessages()
                             : undefined }</h3>
-          <img src={this.state.displayPosts === 'none' ? '/arrow-down.png' : '/arrow-up.png'}
-            onClick={() => {this.state.displayPosts === 'none' ? this.setState({displayPosts: 'block'}) :
-                            this.setState({displayPosts: 'none'})}}/>
+          <img src={this.state.displayPosts === 'none' ? '/arrow-down.png' : '/arrow-up.png'}/>
         </div>
         <div className="account__content" style={{display: this.state.displayPosts}}>
 
@@ -425,32 +421,23 @@ export default class MyPosts extends React.Component {
                         if(unreadMessage.i === 1) {
                           return (
                             <div key={post._id}>
-                              <p><i>Ai un mesaj nou la acest anunt.</i></p>
-                              <Link to={"/posts/"+post._id}>Mergi la anunt</Link>
+                              <p><i>Ai un mesaj nou. <Link to={"/posts/"+post._id}
+                              onClick={() => {Meteor.call('messages.markPostMessagesRead', post._id)}}>(Deschide)</Link></i></p>
                             </div>
                           )
                         }
                         if(unreadMessage.i > 1) {
                           return (
                             <div key={post._id}>
-                              <p><i>Ai {unreadMessage.i} mesaje noi la acest anunt.</i></p>
-                              <Link to={"/posts/"+post._id}>Mergi la anunt</Link>
+                              <p><i>Ai {unreadMessage.i} mesaje noi. <Link to={"/posts/"+post._id}
+                              onClick={() => {Meteor.call('messages.markPostMessagesRead', post._id)}}>(Deschide)</Link></i></p>
                             </div>
                           )
                         }
                       }
                     })
                   : undefined }
-                  {/* {this.state.publicMessages !== undefined && this.state.publicMessages.length > 0 ?
-                    this.state.publicMessages.map((message) => {
-                      return (
-                        <div key={message._id}>
-                          <p>{message.senderUsername} {message.postId}</p>
-                          <p>{message.message}</p>
-                        </div>
-                      )
-                    })
-                  : undefined } */}
+
                   <div className="account__post">
                     <div>
                       <h2>{post.title}</h2>
@@ -509,9 +496,9 @@ export default class MyPosts extends React.Component {
                         <div>
                           <h3>Sigur vrei sa elimini acest anunt?</h3>
                           <div className="account__title">
-                            <button className="button" onClick={() => {Meteor.call('posts.delete', this.state.post._id);
+                            <button className="button-cancel" onClick={() => {Meteor.call('posts.delete', this.state.post._id);
                                                                 this.setState({deleteIsOpen:false})}}>Elimina</button>
-                            <button className="button" onClick={() => {this.setState({deleteIsOpen: false})}}>Inchide</button>
+                            <button className="button-submit" onClick={() => {this.setState({deleteIsOpen: false})}}>Inchide</button>
                           </div>
                         </div>
                       </Modal>
@@ -530,6 +517,7 @@ export default class MyPosts extends React.Component {
                         <form id="form" noValidate="true" onSubmit={this.onSubmit.bind(this)} className="boxed-view__form">
 
                           <p><i>Categorie: {this.state.post.category}</i></p>
+                          <p><i>Codul anuntului: {this.state.post._id}</i></p>
                           <label>Titlu:
                             <input className={this.state.errorTitle ? 'text-input error' : 'text-input'}
                                    type="text" ref="title" name="title" defaultValue={this.state.post.title}
@@ -741,10 +729,6 @@ export default class MyPosts extends React.Component {
                             {this.state.errorCity ? <p>{this.state.errorCity}</p> : undefined}
                           </label>
 
-                          <Dropzone multiple onDrop={this.onImageDrop} accept="image/*" className="form__dropzone">
-                            <h2>Trage imaginile aici sau apasa pentru a le selecta.</h2>
-                          </Dropzone>
-
                           {post.images.length > 0 ?
                             <div className="">
                               <div className="form__center">
@@ -755,6 +739,10 @@ export default class MyPosts extends React.Component {
                               </div>
                             </div>
                           : undefined}
+
+                          <Dropzone multiple onDrop={this.onImageDrop} accept="image/*" className="form__dropzone">
+                            <h2>Trage imaginile aici sau apasa pentru a le selecta.</h2>
+                          </Dropzone>
 
                           <div className="form__center">
                             {this.state.error ? <p>{this.state.error}</p> : undefined}
@@ -775,7 +763,7 @@ export default class MyPosts extends React.Component {
                 </div>
               );
             })
-          : undefined}
+          : <h2>Nu ai adaugat niciun anunt.</h2>}
 
         </div>
 
