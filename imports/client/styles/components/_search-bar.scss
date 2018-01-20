@@ -1,6 +1,9 @@
 .search-bar {
   background: linear-gradient(#e8f7ee, #42ed86);
   color: white;
+  display: flex;
+  justify-content: center;
+  flex-flow: row wrap;
   margin-bottom: $space;
   min-width: 250px;
 }

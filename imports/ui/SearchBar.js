@@ -97,8 +97,12 @@ export default class SearchBar extends React.Component {
 
             <button className="button" onClick={(e) => {
               e.preventDefault();
-              Meteor.call('users.addSearch', this.refs.city.value, this.refs.category.value, this.refs.keyword.value,
-                          this.refs.maxPrice.value, this.refs.currency.value);
+              if(this.refs.city.value && this.refs.maxPrice.value && this.refs.keyword.value
+                && this.refs.category.value && this.refs.currency.value) {
+                Meteor.call('users.addSearch', this.refs.city.value, this.refs.category.value, this.refs.keyword.value,
+                            this.refs.maxPrice.value, this.refs.currency.value);
+              }
+
               Session.set('city', this.refs.city.value);
               Session.set('keyword', this.refs.keyword.value);
               Session.set('maxPrice', this.refs.maxPrice.value);

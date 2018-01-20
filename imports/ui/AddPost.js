@@ -72,7 +72,7 @@ export default class AddPost extends React.Component {
       if(user.personalInfo.searchCriteria.length > 0) {
         user.personalInfo.searchCriteria.map((search) => {
           if(search.city === city && search.category === category && search.currency === currency
-          && search.maxPrice <= price && title.toLowerCase().includes(search.keyword.toLowerCase())) {
+          && price <= search.maxPrice && title.toLowerCase().includes(search.keyword.toLowerCase())) {
             Meteor.call('sendEmail', user.emails[0].address, 'support@rentalstore.com', 'Rental Store - Anunt nou',
               `${Meteor.user().username} a adaugat un anunt care te poate interesa. Il poti vedea aici: ${"rental-store-ionela.herokuapp.com/posts/" + res} .`);
           }

@@ -496,7 +496,10 @@ export default class MyPosts extends React.Component {
                         <div>
                           <h3>Sigur vrei sa elimini acest anunt?</h3>
                           <div className="account__title">
-                            <button className="button-cancel" onClick={() => {Meteor.call('posts.delete', this.state.post._id);
+                            <button className="button-cancel" onClick={() => {
+                                                                Meteor.call('users.removeReferences', this.state.post._id, (err, res) => {
+                                                                  Meteor.call('posts.delete', this.state.post._id);
+                                                                });
                                                                 this.setState({deleteIsOpen:false})}}>Elimina</button>
                             <button className="button-submit" onClick={() => {this.setState({deleteIsOpen: false})}}>Inchide</button>
                           </div>
