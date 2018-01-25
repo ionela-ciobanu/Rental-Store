@@ -18,8 +18,18 @@ export default class PublicPost extends React.Component {
 
           {this.props.images.length > 0 ? <img src={this.props.images[0].src} className="post__image" /> : undefined}
 
-          <p>Pret: {this.props.price}{this.props.currency}/{this.props.period}</p>
-          <p>Localitate: {this.props.city}</p>
+          <table>
+            <tbody>
+              <tr>
+                <th>Localitate</th>
+                <th>Pret</th>
+              </tr>
+              <tr>
+                <td>{this.props.city}</td>
+                <td>{this.props.price}{this.props.currency}/{this.props.period}</td>
+              </tr>
+            </tbody>
+          </table>
 
           <div className="post__counts">
             <div className="post__count">

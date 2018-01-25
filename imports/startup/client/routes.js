@@ -5,12 +5,12 @@ import {Redirect} from 'react-router';
 import {Route, Router, Switch} from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 
-import App from '../ui/App';
-import PostsList from '../ui/PostsList';
-import NotFound from '../ui/NotFound';
-import AddPost from '../ui/AddPost';
-import PostDetails from '../ui/PostDetails';
-import MyAccount from '../ui/MyAccount';
+import App from '../../ui/App';
+import PostsList from '../../ui/PostsList';
+import NotFound from '../../ui/NotFound';
+import AddPost from '../../ui/AddPost';
+import PostDetails from '../../ui/PostDetails';
+import MyAccount from '../../ui/MyAccount';
 
 const unauthenticatedPages = ['/'];
 const authenticatedPages = ['/posts', '/addPost', '/myAccount'];
