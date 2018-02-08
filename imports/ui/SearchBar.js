@@ -106,11 +106,7 @@ export default class SearchBar extends React.Component {
               Session.set('city', this.refs.city.value);
               Session.set('keyword', this.refs.keyword.value);
               Session.set('maxPrice', this.refs.maxPrice.value);
-              this.refs.city.value='';
-              this.refs.category.value='';
-              this.refs.keyword.value='';
-              this.refs.maxPrice.value='';
-              this.refs.currency.value='';}}>Cauta</button>
+              }}>Cauta</button>
           </form>
         </div>
 
