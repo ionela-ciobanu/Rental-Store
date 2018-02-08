@@ -32,7 +32,8 @@ export default class SearchBar extends React.Component {
 
           <form className="search-bar__form">
 
-            <input className="search-bar__input" ref="city" type="text" placeholder="Localitate" list="cities"/>
+            <input className="search-bar__input" ref="city" type="text" placeholder="Localitate" list="cities"
+              id="city"/>
 
             <datalist id="cities">
               {this.state.cities !== null ?
@@ -42,7 +43,8 @@ export default class SearchBar extends React.Component {
               : undefined}
             </datalist>
 
-            <select className="search-bar__input" ref="category" name="category" onChange={(e) => {Session.set('category', e.target.value)}}>
+            <select className="search-bar__input" ref="category" name="category"
+              id="category">
 
               <option value="">Alege o categorie</option>
               <optgroup label="Auto">
@@ -79,7 +81,8 @@ export default class SearchBar extends React.Component {
               </optgroup>
             </select>
 
-            <input className="search-bar__input" ref="keyword" type="text" placeholder="Cuvant-cheie" list="keywords"/>
+            <input className="search-bar__input" ref="keyword" type="text" placeholder="Cuvant-cheie" list="keywords"
+              id="keyword"/>
 
             <datalist id="keywords">
               {this.props.posts.map((post) => {
@@ -87,8 +90,8 @@ export default class SearchBar extends React.Component {
               })}
             </datalist>
 
-            <input className="search-bar__input" type="number" ref="maxPrice" placeholder="Pretul maxim"/>
-            <select className="search-bar__input" ref="currency" onChange={(e) => {Session.set('currency', e.target.value)}}>
+            <input className="search-bar__input" type="number" ref="maxPrice" placeholder="Pretul maxim" id="maxPrice"/>
+            <select className="search-bar__input" ref="currency" id="currency">
               <option value="">Alege moneda</option>
               <option value="RON">RON</option>
               <option value="EUR">EUR</option>
@@ -102,7 +105,8 @@ export default class SearchBar extends React.Component {
                 Meteor.call('users.addSearch', this.refs.city.value, this.refs.category.value, this.refs.keyword.value,
                             this.refs.maxPrice.value, this.refs.currency.value);
               }
-
+              Session.set('category', this.refs.category.value);
+              Session.set('currency', this.refs.currency.value);
               Session.set('city', this.refs.city.value);
               Session.set('keyword', this.refs.keyword.value);
               Session.set('maxPrice', this.refs.maxPrice.value);

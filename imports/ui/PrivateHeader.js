@@ -55,6 +55,11 @@ export default class PrivateHeader extends React.Component {
             <h1 className="header__title"><Link className="header__link" to='/'>{this.props.title}</Link></h1>
             <div className="header__menu">
               <Link className="button header__link" to='/posts' onClick={() => {
+                document.getElementById('city').value="";
+                document.getElementById('category').value="";
+                document.getElementById('keyword').value="";
+                document.getElementById('maxPrice').value="";
+                document.getElementById('currency').value="";
                 Session.set({category: null, keyword: null, isAvailable: false, showMyPosts: false,
                   currency: null, maxPrice: null, city: null});
                   }}>Toate anunturile</Link>
