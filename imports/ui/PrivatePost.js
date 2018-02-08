@@ -1,9 +1,9 @@
 import {Meteor} from 'meteor/meteor';
 import {Tracker} from 'meteor/tracker';
-import React from 'react';
-import moment from 'moment';
-import {Link} from 'react-router-dom';
 import {Session} from 'meteor/session';
+import React from 'react';
+import {Link} from 'react-router-dom';
+import moment from 'moment';
 
 import {Messages} from '../api/messages';
 

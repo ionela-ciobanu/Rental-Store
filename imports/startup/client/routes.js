@@ -1,8 +1,8 @@
 import {Meteor} from 'meteor/meteor';
-import React from 'react';
-import ReactDOM from 'react-dom';
 import {Redirect} from 'react-router';
 import {Route, Router, Switch} from 'react-router-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 
 import App from '../../ui/App';

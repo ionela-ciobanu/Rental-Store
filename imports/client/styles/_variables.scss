@@ -23,7 +23,6 @@ $boxed-view-bg: white;
 //Button
 $button-bg: $brand-primary;
 $button-color: white;
-$button-pill-color: $brand-primary;
 $button-secondary-bg: $light-grey;
 $button-secondary-color: $dark-grey;
 $button-secondary-border-color: $grey;
@@ -34,5 +33,3 @@ $header-color: white;
 
 //Item
 $item-bg: $light-grey;
-$item-border: darken($item-bg, 8%);
-$item-text-color: $dark-grey;

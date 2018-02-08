@@ -1,8 +1,8 @@
 import {Meteor} from 'meteor/meteor';
 import React from 'react';
+import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import {Link} from 'react-router-dom';
 
 export default class PublicPost extends React.Component {
   constructor(props) {

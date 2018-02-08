@@ -1,11 +1,11 @@
 import {Meteor} from 'meteor/meteor';
-import React from 'react';
-import Dropzone from 'react-dropzone';
-import axios from 'axios';
-import Gallery from 'react-grid-gallery';
-import Modal from 'react-modal';
 import {Tracker} from 'meteor/tracker';
+import React from 'react';
+import Modal from 'react-modal';
+import Dropzone from 'react-dropzone';
+import Gallery from 'react-grid-gallery';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
 
 import {Messages} from '../api/messages';
 import {Posts} from '../api/posts';

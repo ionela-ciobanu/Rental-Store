@@ -1,8 +1,8 @@
 import {Meteor} from 'meteor/meteor';
-import React from 'react';
 import {Tracker} from 'meteor/tracker';
-import moment from 'moment';
 import {Session} from 'meteor/session';
+import React from 'react';
+import moment from 'moment';
 
 import {Messages} from '../api/messages';
 

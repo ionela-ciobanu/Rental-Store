@@ -1,7 +1,7 @@
 import {Meteor} from 'meteor/meteor';
+import {Tracker} from 'meteor/tracker';
 import React from 'react';
 import Modal from 'react-modal';
-import {Tracker} from 'meteor/tracker';
 import FlipMove from 'react-flip-move';
 
 import PrivateHeader from './PrivateHeader';

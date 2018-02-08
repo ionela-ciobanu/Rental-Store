@@ -1,11 +1,11 @@
 import {Meteor} from 'meteor/meteor';
 import {Accounts} from 'meteor/accounts-base';
-import React from 'react';
 import {Tracker} from 'meteor/tracker';
+import React from 'react';
 import FlipMove from 'react-flip-move';
-import moment from 'moment';
 import {Redirect} from 'react-router-dom';
 import Gallery from 'react-grid-gallery';
+import moment from 'moment';
 
 import NotFound from './NotFound';
 import PrivateHeader from './PrivateHeader';
@@ -328,6 +328,7 @@ export default class PostDetails extends React.Component {
 
                 <div className="first__section">
                   <h2>{this.state.post.title}</h2>
+                  <h2>{this.state.post.city}</h2>
                   <h2><i>{this.state.post.price}{this.state.post.currency}/{this.state.post.period}</i></h2>
                 </div>
 

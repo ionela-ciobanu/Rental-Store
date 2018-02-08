@@ -1,7 +1,7 @@
-import React from 'react';
 import {Meteor} from 'meteor/meteor';
-import SimpleSchema from 'simpl-schema';
 import {Accounts} from 'meteor/accounts-base';
+import React from 'react';
+import SimpleSchema from 'simpl-schema';
 import shortid from 'shortid';
 
 import {Emails} from '../api/emails';

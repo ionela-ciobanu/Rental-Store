@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import {Session} from 'meteor/session';
 import {Accounts} from 'meteor/accounts-base';
 import {Tracker} from 'meteor/tracker';
+import React from 'react';
 import {Link} from 'react-router-dom';
-import {Session} from 'meteor/session';
+import PropTypes from 'prop-types';
 
 import {Messages} from '../api/messages';
 

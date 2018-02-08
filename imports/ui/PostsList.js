@@ -1,8 +1,8 @@
 import {Meteor} from 'meteor/meteor';
 import {Accounts} from 'meteor/accounts-base';
-import React from 'react';
 import {Tracker} from 'meteor/tracker';
 import {Session} from 'meteor/session';
+import React from 'react';
 import FlipMove from 'react-flip-move';
 import moment from 'moment';
 

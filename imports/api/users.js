@@ -1,8 +1,7 @@
-import { Meteor } from 'meteor/meteor';
-import SimpleSchema from 'simpl-schema';
+import {Meteor} from 'meteor/meteor';
 import {Accounts} from 'meteor/accounts-base';
-import { Email } from 'meteor/email';
-import {Session} from 'meteor/session';
+import {Email} from 'meteor/email';
+import SimpleSchema from 'simpl-schema';
 import shortid from 'shortid';
 
 if (Meteor.isServer) {

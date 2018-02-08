@@ -1,11 +1,11 @@
 import {Meteor} from 'meteor/meteor';
+import {Accounts} from 'meteor/accounts-base';
+import {Session} from 'meteor/session';
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {Accounts} from 'meteor/accounts-base';
 import SimpleSchema from 'simpl-schema';
 import moment from 'moment';
 import shortid from 'shortid';
-import {Session} from 'meteor/session';
 
 import {Emails} from '../api/emails';
 

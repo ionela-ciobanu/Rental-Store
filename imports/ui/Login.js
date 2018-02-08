@@ -1,5 +1,5 @@
-import React from 'react';
 import {Meteor} from 'meteor/meteor';
+import React from 'react';
 import SimpleSchema from 'simpl-schema';
 
 export default class Login extends React.Component {

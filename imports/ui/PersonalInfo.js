@@ -1,6 +1,6 @@
 import {Meteor} from 'meteor/meteor';
-import React from 'react';
 import {Tracker} from 'meteor/tracker';
+import React from 'react';
 
 export default class PersonalInfo extends React.Component {
   constructor(props) {
